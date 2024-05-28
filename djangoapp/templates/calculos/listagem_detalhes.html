@@ -1,0 +1,33 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block thead %}
+	<tr>
+		<th>ID</th>
+		<th>Dt. Inicio Calc</th>
+		<th>Dt. Fim Calc</th>
+		<th>Dt. Liquidação</th>
+		<th>Dt. Criação</th>
+		<th>Obs.</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td>{{ item.id }}</td>
+			<td><input type="hidden" value='{{ item.dt_inicio_calc|date:"Ymd" }}'>{{ item.dt_inicio_calc|date:"d/m/Y" }}</td>
+			<td><input type="hidden" value='{{ item.dt_fim_calc|date:"Ymd" }}'>{{ item.dt_fim_calc|date:"d/m/Y" }}</td>
+			<td><input type="hidden" value='{{ item.dt_liquidacao|date:"Ymd" }}'>{{ item.dt_liquidacao|date:"d/m/Y" }}</td>
+			<td><input type="hidden" value='{{ item.dt_criacao|date:"Ymd" }}'>{{ item.dt_criacao|date:"d/m/Y" }}</td>
+			<td><span title="{{ item.n_arquivo }}">{{ item.n_arquivo|truncatechars:20 }}<span></td>
+			<td class="text-center">
+				<a type="button" class="btn btn-outline-info"
+					href="{% url 'listagem_verbas' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Verbas">
+					<i class="mdi mdi-arrange-bring-forward" style="font-size: 20px;"></i>
+				</a>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}

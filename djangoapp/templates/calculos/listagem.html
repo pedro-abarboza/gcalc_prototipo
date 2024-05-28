@@ -1,0 +1,72 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+
+{% block info %}
+	{% if processo %}
+	<div class="px-3 pb-3" style="font-size: 15px">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th class="p-1 px-2">Reclamada</th>
+				<th class="p-1 px-2">Reclamante</th>
+				<th class="p-1 px-2">Data de Ajuizamento</th>
+			</tr>
+			<tr>
+				<td class="p-1 px-2">{{ processo.reclamada }}</td>
+				<td class="p-1 px-2">{{ processo.reclamante }}</td>
+				<td class="p-1 px-2">
+					<input type="hidden" value='{{ processo.dt_ajuizamento|date:"d/m/Y" }}'>
+					{{ processo.dt_ajuizamento|date:"d/m/Y" }}
+				</td>
+			</th>
+		</table>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block thead %}
+	<tr>
+		<th>Nº do Processo</th>
+		<th>Id. Calc</th>
+		<th>Valor Devido</th>
+		<th>Valor Pago</th>
+		<th>Valor Calculado</th>
+		<th>Valor Corrigido</th>
+		<th>Juros</th>
+		<th>Total</th>
+		<th>Obs.</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle" title="{{ item.processo }}">
+				<span class="text-truncate tt-table">{{ item.processo }}</span></td>
+			<td class="py-1 align-middle">{{ item.id }}</td>
+			<td class="py-1 align-middle">{{ item.total_devido|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_pago|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_calculado|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_corrigido|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_juros|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle" title="{{ item.n_arquivo }}">
+				<span class="text-truncate tt-table">{{ item.n_arquivo }}<span>
+			</td>
+			<td class="py-1 align-middle" class="justify-content-md-center" style="display: flex;">
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					href="{% url 'listagem_verbas' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Verbas">
+					<i class="mdi mdi-arrange-bring-forward" style="font-size: 15px;"></i>
+				</a>
+				<form action="{% url 'delete_processos' item.id %}" method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Processo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</button>
+				</form>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base/index.html" %}
+{% load static %}
+
+{% block css %}
+	<link href={% static "dist/css/jquery-ui.css"%} rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+	<!-- ============================================================== -->
+	<!-- Container fluid  -->
+	<!-- ============================================================== -->
+	<div class="container-fluid">
+		<!-- ============================================================== -->
+		<!-- Start Page Content -->
+		<!-- ============================================================== -->
+		<div class="card">
+			<div class="card-body wizard-content">
+				<h4 class="card-title">{{card_title}}</h4>
+				<h6 class="card-subtitle">{{subtitle}}</h6>
+				<form class="form-horizontal" method="post">
+					<div class="border-top">
+						<div class="card-body">
+							{% csrf_token %}
+							{% block form %}
+							{% endblock %}
+							<div style = "text-align-last: center;">
+								<button type="submit" class="btn btn-primary">
+									Salvar
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page Content -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+{% endblock %}

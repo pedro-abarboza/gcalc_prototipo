@@ -1,0 +1,35 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block thead %}
+	<tr>
+		<th>Data</th>
+		<th>Base</th>
+		<th>Div.</th>
+		<th>Mult.</th>
+		<th>Qtd.</th>
+		<th>Dobra</th>
+		<th>Devido</th>
+		<th>Pago</th>
+		<th>Dif.</th>
+		<th>ICM</th>
+		<th>Vl. Corrigido</th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.data|date:"d/m/Y" }}</td>
+			<td class="py-1 align-middle">{{ item.base|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.divisor }}</td>
+			<td class="py-1 align-middle">{{ item.multiplicador }}</td>
+			<td class="py-1 align-middle">{{ item.quantidade }}</td>
+			<td class="py-1 align-middle">{% if item.dobra %} Sim {% else %}Não{% endif %}</td>
+			<td class="py-1 align-middle">{{ item.devido|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.pago|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.diferenca|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.icm|floatformat:9 }}</td>
+			<td class="py-1 align-middle">{{ item.v_corrigido|floatformat:2 }}</td>
+		</th>
+	{% endfor %}
+{% endblock %}

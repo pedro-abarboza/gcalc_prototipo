@@ -1,0 +1,128 @@
+{% extends "genericos/listagem_relatorio.html" %}
+{% load static %}
+{% load functions %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}">
+	<link href="{% static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block info %}
+	<div class="card">
+		<div class="card-body">
+			<form>
+				<div class="row">
+					<div class="col-3 form-group">
+						<label>Nº Processo</label>
+						<select name="processo" class="select form-control">
+							<option value="">-----</option>
+							{% for item in processos %}
+								<option value="{{item.0}}" 
+									{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-3 form-group">
+						<label>Reclamada</label>
+						<select name="reclamada" class="select form-control">
+							<option value="">-----</option>
+							{% for item in reclamadas %}
+								<option value="{{item.0}}" 
+									{% if reclamada_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-3 form-group">
+						<label>Reclamante</label>
+						<select name="reclamante" class="select form-control">
+							<option value="">-----</option>
+							{% for item in reclamantes %}
+								<option value="{{item.0}}" 
+									{% if reclamante_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-3 form-group">
+						<button name="submit" value="filtrar" type="submit" class="btn btn-primary mt-4"><i class="mdi mdi-filter"></i>Filtrar</button>
+						<button name="submit" value="exportar" type="submit" class="btn btn-success mt-4"><i class="mdi mdi-file-excel-box"></i>Exportar</button>
+					</div>
+				</div>
+				<div class="">
+					<label>Verbas</label>
+					<p>
+						<select name="colunas[]" class="select" multiple="multiple" style="width: 100%">
+							{% for item in colunas %}
+								<option value="{{item.0}}" 
+									{% if item.0|safe in colunas_id  %}selected{%endif%}>{{item.1}}</option>
+							{% endfor %}
+						</select>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
+{% block thead %}
+	<tr>
+		<th class="py-2 align-middle">Arquivo</th>
+		<th class="py-2 align-middle" title="Data da Liquidação">D.Liq.</th>
+		<th class="py-2 align-middle">ID</th>
+		<th class="py-2 align-middle">Nº Processo</th>
+		<th class="py-2 align-middle">Reclamada</th>
+		<th class="py-2 align-middle">Reclamante</th>
+		{% for coluna in colunas_tabela %}
+			<th class="py-1 align-middle"><span class="text-truncate tt-table" style="font-size:11" title="{{coluna}}">{{coluna}}</span></th>
+		{% endfor %}
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% if object_list %}
+		{% for item in object_list %}
+			<tr>
+				<td class="py-1 align-middle">
+					<span class="text-truncate tt-table" title="{{item.n_arquivo}}">{{item.n_arquivo}}</span>
+				</td>
+				<td class="py-1 align-middle">
+					<input type="hidden" value='{{ item.dt_criacao|date:"Ymd" }}'>{{ item.dt_liquidacao|date:"d/m/Y" }}
+				</td>
+				<td class="py-1 align-middle">{{item.id}}</td>
+				<td class="py-1 align-middle">
+					<span class="text-truncate tt-table" title="{{item.processo}}">{{item.processo}}</span>
+				</td>
+				<td class="py-1 align-middle">
+					<span class="text-truncate tt-table" title="{{item.processo.reclamada}}">{{item.processo.reclamada}}</span>
+				</td>
+				<td class="py-1 align-middle">
+					<span class="text-truncate tt-table" title="{{item.processo.reclamante}}">{{item.processo.reclamante}}</span>
+				</td>
+				{% for coluna in colunas_tabela %}
+					<td class="py-1 align-middle">{{item|get_coluna:coluna }}</td>
+				{% endfor %}
+			</th>
+		{% endfor %}
+	{% else %}
+		<div class="alert alert-info" role="alert">
+			Sem resultados
+		</div>
+	{% endif %}
+{% endblock %}
+
+{% block js %}
+	<script src="{% static 'assets/libs/select2/dist/js/select2.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/custom.js' %}"></script>
+	<script>
+		$(document).ready(function() {
+			$('.select').select2({
+				placeholder: 'Selecione as Verbas desejadas.',
+  				allowClear: true
+			});
+		});
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+
+{% endblock %}

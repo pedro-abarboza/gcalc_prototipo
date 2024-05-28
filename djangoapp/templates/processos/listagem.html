@@ -1,0 +1,43 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block thead %}
+	<tr>
+		<th>Nº do Processo</th>
+		<th>Reclamante</th>
+		<th>Reclamada</th>
+		<th>Dt. Ajuizamento</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.n_processo }}</td>
+			<td class="py-1 align-middle" title="{{ item.reclamada }}">
+				<span class="text-truncate tt-table">{{ item.reclamada }}</span>
+			</td>
+			<td class="py-1 align-middle" title="{{ item.reclamante }}">
+				<span class="text-truncate tt-table">{{ item.reclamante }}</span>
+			</td>
+			<td class="py-1 align-middle">
+				<input type="hidden" value='{{ item.dt_ajuizamento|date:"Ymd" }}'>
+				{{ item.dt_ajuizamento|date:"d/m/Y" }}
+			</td>
+			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					href="{% url 'listagem_calculos' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Calculos">
+					<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
+				</a>
+				<form action="{% url 'delete_processos' item.id %}" method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Processo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</button>
+				</form>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}

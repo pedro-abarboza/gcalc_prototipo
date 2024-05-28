@@ -1,0 +1,72 @@
+{% extends "base/index.html" %}
+{% load static %}
+{% block css %}
+	<link href="{% static 'assets/libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet"/>
+	<link href="{% static 'assets/libs/jquery-steps/steps.css' %}" rel="stylesheet %}" />
+{% endblock %}
+{% block container%}
+	<!-- ============================================================== -->
+	<!-- Container fluid  -->
+	<!-- ============================================================== -->
+	<div class="container-fluid">
+		<!-- ============================================================== -->
+		<!-- Start Page Content -->
+		<!-- ============================================================== -->
+		<div class="card">
+			<div class="card-body wizard-content">
+				<h4 class="card-title">{{card_title}}</h4>
+				<h6 class="card-subtitle">{{subtitle}}</h6>
+				<form id="upload-form" method='POST' class="mt-5" enctype="multipart/form-data" >
+					{% csrf_token %}
+					<div>
+						<h3>Arquivo</h3>
+						<section>
+							<label for="arquivo">Arquivo *</label>
+							<input id="arquivo" name="arquivo" type="file" class="required form-control" multiple />
+							
+							<p>(*) Mandatory</p>
+						</section>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page Content -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+{% endblock %}
+
+{% block js %}
+    <!-- this page js -->
+    <script src="{% static 'assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+    <script src="{% static 'assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    <script>
+      // Basic Example with form
+      var form = $("#upload-form");
+      form.validate({
+        errorPlacement: function errorPlacement(error, element) {
+          element.before(error);
+        },
+      });
+      form.children("div").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onStepChanging: function (event, currentIndex, newIndex) {
+          form.validate().settings.ignore = ":disabled,:hidden";
+          return form.valid();
+        },
+        onFinishing: function (event, currentIndex) {
+          form.validate().settings.ignore = ":disabled";
+          return form.valid();
+        },
+        onFinished: function (event, currentIndex) {
+		$(".preloader").fadeIn();
+          form.submit();
+        },
+      });
+    </script>
+{% endblock %}

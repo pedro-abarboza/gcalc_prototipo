@@ -1,0 +1,56 @@
+{% extends "genericos/cadastro.html" %}
+{% load static %}
+{% block form %}
+	<div class="form-group mt-3">
+		<label>Nº Processo</label>
+		<input name='n_processo' type="text" class="form-control processo-inputmask" 
+			id="n_processo" placeholder="Digite o nº do Processo" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>Reclamada</label>
+		<input name='reclamada' type="text" class="form-control autocomplete" 
+			id="reclamada" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>Reclamante</label>
+		<input name='reclamante' type="text" class="form-control autocomplete" 
+			id="reclamante" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>Data de Ajuizamento</label>
+		<input name='dt_ajuizamento' type="text" class="form-control date-inputmask datepicker-autoclose" 
+			id="dt_ajuizamento" required
+		>
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script src='{% static "assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js" %}'></script>
+    <script src='{% static "dist/js/pages/mask/mask.init.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.full.min.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.min.js" %}'></script>
+	<script src='{% static "assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}'></script>
+	<script src='{% static "dist/js/jquery-ui.min.js" %}'></script>
+
+	<script>
+		$( function() {
+			jQuery(".datepicker-autoclose").datepicker({
+				autoclose: true,
+				format: "dd/mm/yyyy",
+				language: "pt-BR",
+			});
+			$( "#reclamada" ).autocomplete({
+				source: "{% url 'autocomplete_reclamada' %}"
+			});
+			$( "#reclamante" ).autocomplete({
+				source: "{% url 'autocomplete_reclamante' %}"
+			});
+		});
+	</script>
+{% endblock %}

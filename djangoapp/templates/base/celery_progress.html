@@ -1,0 +1,112 @@
+{% extends "base/index.html" %}
+{% load static %}
+
+{% block container%}
+	<!-- ============================================================== -->
+	<!-- Container fluid  -->
+	<!-- ============================================================== -->
+	<div class="container-fluid">
+		<!-- ============================================================== -->
+		<!-- Start Page Content -->
+		<!-- ============================================================== -->
+		<div class="card">
+			<div class="card-body">
+				{% if stats %}
+					<h4 class="card-title mb-0">Progresso</h4>
+					<div class="mt-3">
+						<div class="d-flex no-block align-items-center">
+							<h4 id='percentual'></h4>
+						</div>
+						<div class="progress-wrapper" style="height: 55px">
+							<div id='progress-bar' class="progress-bar progress-bar-striped" 
+								role="progressbar" style="width: 0%; height:40px; border-radius: 5px" 
+								aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+							</div>
+						</div>
+						<div id="progress-bar-message">
+							<span>Por favor aguarde ...</span>
+						</div>
+					</div>
+				{% else %}
+					<h4 class="card-title mb-0">Serviço temporariamente indisponível</h4>
+				{% endif %}
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page Content -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+{% endblock %}
+
+{% block js %}
+    <!-- this page js -->
+	<script src="{% static 'assets/libs/celery_progress/celery_progress.js' %}"></script>
+    <script>
+		function customProgress(progressBarElement, progressBarMessageElement, progress) {
+			var description = progress.description || "";
+	
+			progressBarElement.style.backgroundColor = '#68a9ef';
+			progressBarElement.style.width = progress.percent + "%";
+			$("#percentual").html(" - "+ progress.percent + "% - ")
+	
+			progressBarMessageElement.innerHTML =
+				"<span class=''><i class='fa fa-exclamation-triangle text-warning'></i> Por favor aguarde, este processo pode levar alguns minutos. </span><br/>" +
+				"<span class=''>Quando o processo terminar você será notificado.</span><br/>" +
+				"<span><b>"+ description + "</b></span>";
+		};
+	
+		function customSuccess(progressBarElement, progressBarMessageElement, resultElement) {
+			message = "<span class=''><i class='fa fa-check text-success'></i> <b>Processo concluido.</b></span>";
+			color = '#76ce60';
+	
+			if (resultElement){
+	
+				if (!typeof resultElement === 'object'){
+					// Only Text
+					message += "<br /><span class=''><b>" + resultElement + "</b></span>";
+				}else{
+	
+					// Backend Dictionary
+					if (resultElement.pending == 'true'){
+						color = '#F0E68C';
+						message = "<span class=''><i class='fa fa-exclamation-triangle text-warning'></i> <b>" + resultElement.description + "</b></span>";
+					}else{
+	
+						if (resultElement.description){
+							message += "<br /><span class=''><b>" + resultElement.description + "</b></span>";
+						};
+					};
+	
+					if (resultElement.download_file){
+						message += "<br /><a href=" + resultElement.download_file +" target='_blank' id='download_file' class='text-blue'> <i class='ace-icon fa fa-eye'></i> Clique aqui realizar o download do arquivo.</a>";
+					};
+				};
+			};
+	
+			progressBarMessageElement.innerHTML = message;
+			progressBarElement.style.backgroundColor = color;
+		}
+	
+		function customError(progressBarElement, progressBarMessageElement, excMessage) {
+			message = "<span class=''><i class='fa fa-exclamation-triangle text-danger'></i> Ocorreu um problema no processo: </span>";
+	
+			if (excMessage){
+				message += "<br /><span class=''> <b>" + excMessage +"</b></span>";
+			}
+			progressBarMessageElement.innerHTML = message;
+			progressBarElement.style.backgroundColor = '#ff6666';
+		}
+
+		$(function () {
+			var progressUrl = "{% url 'celery_progress:task_status' task_id %}";
+			CeleryProgressBar.initProgressBar(progressUrl,{
+				onProgress: customProgress,
+				onSuccess: customSuccess,
+				onError: customError,
+			})
+		});
+    </script>
+{% endblock %}
