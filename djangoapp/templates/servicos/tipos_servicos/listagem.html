@@ -1,0 +1,32 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block thead %}
+	<tr>
+		<th>Tipo de Serviço</th>
+		<th>Valor</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.descricao }}</td>
+			<td class="py-1 align-middle real-inputmask" title="{{ item.valor }}">{{ item.valor }}</td>
+			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					href="{% url 'edicao_tipo_servicos' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+				</a>
+				<form action="{% url 'delete_tipo_servicos' item.id %}" method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</button>
+				</form>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}

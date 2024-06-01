@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('apps.home.urls')),
     path('calculos/', include('apps.calculos.urls')),
     path('processos/', include('apps.processos.urls')),
+    path('servicos/', include('apps.servicos.urls')),
 
     #  Libs
     re_path(r"^celery-progress/", include("celery_progress.urls")),

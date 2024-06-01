@@ -8,6 +8,8 @@ services:
       context: .
     ports:
       - 8000:8000
+    expose:
+      - 8000
     volumes:
       - ./djangoapp:/djangoapp
       - ./data/web/static:/data/web/static/

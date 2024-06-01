@@ -26,6 +26,11 @@
 			</td>
 			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
 				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					href="{% url 'listagem_andamentos' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Andamentos">
+					<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
+				</a>
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
 					href="{% url 'listagem_calculos' item.id %}"
 					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Calculos">
 					<i class="mdi mdi-calculator" style="font-size: 15px;"></i>

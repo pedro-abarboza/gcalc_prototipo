@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Arquivos staticos
 # /data/web/static
 # /data/web/media
-DATA_DIR = BASE_DIR.parent / 'data' / 'web'
+DATA_DIR = BASE_DIR.parent / 'data'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -143,12 +143,12 @@ USE_THOUSAND_SEPARATOR = True
 
 STATIC_URL = '/static/'
 # /data/web/static
-STATIC_ROOT = DATA_DIR / 'static'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = (os.path.join(DATA_DIR, "static"),)
 
 MEDIA_URL = '/media/'
 # /data/web/media
-MEDIA_ROOT = DATA_DIR / 'media'
+MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

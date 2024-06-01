@@ -39,18 +39,19 @@ def get_number(item):
 def import_pjecalc_task(self, **kwargs):
     files = kwargs['dados']
     progress_recorder = ProgressRecorder(self)
-    total_progress_recorder = int(len(files)*5)
+    total_progress_recorder = int(len(files)*7)
     progress = 0
     progress_recorder.set_progress(progress, total_progress_recorder, description="Iniciando Importação...")
 
     for file in files:
-        arq_name=file.split('/')[-1]
-        pdf_reader = PdfReader(file)
-        pg_inicio = 0
 
         progress+=1
         progress_recorder.set_progress(progress, total_progress_recorder, 
             description="Lendo arquivo PJE-Calc - {}...".format(arq_name))
+        
+        arq_name=file.split('/')[-1]
+        pdf_reader = PdfReader(file)
+        pg_inicio = 0
 
         #unir paginas
         all_pages = ''
@@ -81,6 +82,8 @@ def import_pjecalc_task(self, **kwargs):
         }
 
         #Salva os dados do processo
+        progress_recorder.set_progress(progress, total_progress_recorder, 
+            description="Salva os dados do Processo - {}...".format(arq_name))
         processo, processo_create = Processos.objects.get_or_create(**dados_processo)
 
         progress+=1
@@ -101,7 +104,10 @@ def import_pjecalc_task(self, **kwargs):
             if 'Percentual de Parcelas Remuneratórias e Tributáveis' in item:
                 dados_calculo['per_parcelas_rt'] = item.split()[-1].replace("%", '').replace(',','.')
                 break
-
+        
+        progress+=1
+        progress_recorder.set_progress(progress, total_progress_recorder, 
+            description="Salvando dados do Cálculo - {}...".format(arq_name))
         calculo = Calculos.objects.create(**dados_calculo)
         
         progress+=1
@@ -109,45 +115,53 @@ def import_pjecalc_task(self, **kwargs):
             description="Buscando Valores do Resumo - {}...".format(arq_name))
         
         tabelas = camelot.read_pdf(file, pages = str(pg_inicio)+'-2', )
-        verbas = []
+        verbas_s = []
         for tabela in tabelas:
             if tabela.df[0][0] == 'Descrição do Bruto Devido ao Reclamante':
                 #entra na tabela de verbas
                 for idx in tabela.df[1:].transpose():
                     linha = tabela.df[1:].transpose()[idx]
                     progress_recorder.set_progress(progress, total_progress_recorder, 
-                        description="Salvando{} - {}...".format(linha[0], arq_name))
-                    verba = VerbasCalc.objects.create(
+                        description="Processando {} - {}...".format(linha[0], arq_name))
+                    verbas_s.append(VerbasCalc(
                         calculo = calculo,
                         descricao = linha[0], 
                         v_corrigido = get_number(linha[1]), 
                         juros = get_number(linha[2]), 
                         total = get_number(linha[3])
-                    )
-                    verbas.append(verba)
+                    ))
 
             elif tabela.df[0][0] == 'Descrição de Débitos do Reclamado por Credor':
                 #entra na tabela de debitos da Reclamada
+                debitos_s = []
                 for idx in tabela.df[1:].transpose():
                     linha = tabela.df[1:].transpose()[idx]
                     progress_recorder.set_progress(progress, total_progress_recorder, 
                         description="Salvando{} - {}...".format(linha[0], arq_name))
-                    DebitosReclamado(
+                    debitos_s.append(DebitosReclamado(
                         calculo = calculo, 
                         descricao = linha[0], 
                         valor = get_number(linha[1])
-                        ).save()
+                        ))
 
             elif tabela.df[0][0] =='Descrição de Créditos e Descontos do Reclamante':
                 #entra na tabela de creditos e descontos do Reclamante
+                creddes_s = []
                 for idx in tabela.df[1:].transpose():
                     linha = tabela.df[1:].transpose()[idx]
                     progress_recorder.set_progress(progress, total_progress_recorder, 
-                        description="Salvando{} - {}...".format(linha[0], arq_name))
-                    CredDesReclamante(
+                        description="Processando {} - {}...".format(linha[0], arq_name))
+                    creddes_s.append(CredDesReclamante(
                         calculo = calculo,
                         descricao = linha[0], 
-                        valor = get_number(linha[1])).save()
+                        valor = get_number(linha[1])))
+        
+        progress+=1
+        progress_recorder.set_progress(progress, total_progress_recorder, 
+            description="Salvando dados do Resumo - {}...".format(arq_name))
+        VerbasCalc.objects.bulk_create(verbas_s, batch_size=100)
+        DebitosReclamado.objects.bulk_create(debitos_s, batch_size=100)
+        CredDesReclamante.objects.bulk_create(creddes_s, batch_size=100)
 
         progress+=1
         progress_recorder.set_progress(progress, total_progress_recorder, 
@@ -159,7 +173,7 @@ def import_pjecalc_task(self, **kwargs):
                 n_linha = idx
                 break
 
-        for verba in verbas:
+        for verba in verbas_s:
             if verba.descricao == 'Total':
                 from django.db.models import Sum
                 totais = VerbasCalcDetalhes.objects.filter(verba__calculo = calculo)
@@ -169,20 +183,20 @@ def import_pjecalc_task(self, **kwargs):
                 verba.save()
                 break
             progress_recorder.set_progress(progress, total_progress_recorder, 
-            description="Detalhes - {} - {}...".format(verba.descricao, arq_name))
+            description="Buscando - {} - {}...".format(verba.descricao, arq_name))
             devido = 0
             pago = 0
             diferenca = 0
+            verbas_det_s = []
             for idx, linha in enumerate(all_pages[n_linha:]):
                 if verba.descricao in linha:
                     linha_v = all_pages[n_linha+idx]
                     while not 'Total' in linha_v:
-
                         if linha_v[:2].isdigit() and linha_v[3:4]=='a' \
                             and linha_v[5:7].isdigit() and linha_v[7:8]=='/':
                             valores = linha_v.split(' ')
                             valores = [item for item in valores if item != '']
-                            VerbasCalcDetalhes(
+                            verbas_det_s.append(VerbasCalcDetalhes(
                                 verba = verba,
                                 data = datetime.strptime('01'+valores[2][2:], '%d/%m/%Y'),
                                 base = get_number(valores[3]),
@@ -195,7 +209,7 @@ def import_pjecalc_task(self, **kwargs):
                                 diferenca = get_number(valores[10]),
                                 icm = get_number(valores[11]),
                                 v_corrigido = get_number(valores[12]),
-                            ).save()
+                            ))
 
                             devido += float(get_number(valores[8]))
                             pago += float(get_number(valores[9]))
@@ -209,8 +223,13 @@ def import_pjecalc_task(self, **kwargs):
                 else:
                     continue
             
+            #Salvando valores
+            progress_recorder.set_progress(progress, total_progress_recorder, 
+            description="Salvando - {} - {}...".format(verba.descricao, arq_name))
+            VerbasCalcDetalhes.objects.bulk_create(verbas_det_s, batch_size=100)
             #Somar totais das verbas
             verba.v_devido = devido
             verba.v_pago = pago
             verba.v_calculado = diferenca
             verba.save()
+

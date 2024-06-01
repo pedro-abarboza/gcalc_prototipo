@@ -1,0 +1,76 @@
+{% extends "genericos/cadastro.html" %}
+{% load static %}
+
+{% block css %}
+	<link href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css" >
+	<link href="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block form %}
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.tipo_servico.label}}</label>
+		<select name='tipo_servico' class="form-control select" id="tipo_servico" required>
+			<option value="">-----</option>
+			{% for item in form.fields.tipo_servico.choices.queryset %}
+				<option value="{{item.0}}" 
+					{% if tipo_servico_id|safe == item.id|safe %}selected{%endif%}>{{item.descricao}}</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.cliente.label}}</label>
+		<input name='cliente' type="text" class="form-control autocomplete" 
+			id="cliente" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.tipo_servico.label}}</label>
+		<input name='reclamante' type="text" class="form-control autocomplete" 
+			id="reclamante" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.processo.label}}</label>
+		<input name='processo' type="text" class="form-control processo-inputmask" 
+			id="processo" required
+		>
+	</div>
+	<div class="form-group mt-3">
+		<label>{{form.fields.dt_prazo.label}}</label>
+		<input name='dt_prazo' type="text" class="form-control datepicker date-inputmask" 
+			id="dt_prazo" required
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.observacao.label}}</label>
+		<input name='observacao' type="text" class="form-control" 
+			id="observacao" required
+		>
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script src='{% static "assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js" %}'></script>
+    <script src='{% static "dist/js/pages/mask/mask.init.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.full.min.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.min.js" %}'></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js" %}'></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/locale.js" %}'></script>
+
+	<script>
+		$( function() {
+			$(".datepicker").datepicker({
+				language: 'pt-BR'
+			});
+			$(".select").select2();
+			$( "#processo" ).autocomplete({
+				source: "{% url 'autocomplete_processos' %}"
+			});
+		});
+	</script>
+{% endblock %}

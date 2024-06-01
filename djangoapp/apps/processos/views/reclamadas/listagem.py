@@ -14,7 +14,7 @@ class ListagemReclamadas(ListView):
         return [
             {
                 'title': 'Home',
-                'url': '',
+                'url': 'home',
                 'activate': None
             },{
                 'title': 'Processos',

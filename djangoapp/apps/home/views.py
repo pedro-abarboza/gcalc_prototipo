@@ -9,7 +9,7 @@ class HomeView(TemplateView):
         return [
             {
                 'title': 'Home',
-                'url': '',
+                'url': 'home',
                 'activate': 'true'
             },
         ]

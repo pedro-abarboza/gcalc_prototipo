@@ -59,10 +59,10 @@
 					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Verbas">
 					<i class="mdi mdi-arrange-bring-forward" style="font-size: 15px;"></i>
 				</a>
-				<form action="{% url 'delete_processos' item.id %}" method="post">
+				<form action="{% url 'delete_calculos' item.id %}" method="post">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
-						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Processo">
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Calculo">
 						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
 					</button>
 				</form>

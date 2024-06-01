@@ -1,0 +1,22 @@
+{% extends "genericos/cadastro.html" %}
+{% load static %}
+{% block form %}
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.descricao.label}}</label>
+		<input name="descricao" type="text" class="form-control" maxlength={{form.fields.descricao.max_length}}
+			id="descricao" placeholder="Digite a Descrição do Serviço" required value="{{form.initial.descricao}}"
+		>
+	</div>
+
+	<div class="form-group mt-3">
+		<label>{{form.fields.valor.label}}</label>
+		<input name='valor' type="text" class="form-control real-inputmask" id="valor" value={{form.initial.valor}}>
+	</div>
+
+{% endblock %}
+
+{% block js %}
+	<script src='{% static "assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js" %}'></script>
+    <script src='{% static "dist/js/pages/mask/mask.init.js" %}'></script>
+{% endblock %}

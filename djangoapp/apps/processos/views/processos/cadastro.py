@@ -18,11 +18,11 @@ class CadProcessos(CreateView):
         return [
             {
                 'title': 'Home',
-                'url': '',
+                'url': 'home',
                 'activate': None
             },{
                 'title': 'Processos',
-                'url': '',
+                'url': 'listagem_processos',
                 'activate': 'true'
             }
         ]

@@ -24,7 +24,7 @@ class UploadPjeCalc(TemplateView, CeleryTaskMixin):
         context['breadcrumbs'] = [
             {
                 'title': 'Home',
-                'url': '',
+                'url': 'home',
                 'activate': None
             },{
                 'title': 'Cálculo',

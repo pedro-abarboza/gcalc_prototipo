@@ -27,13 +27,34 @@
 								{% for item in item.submenu %}
 									<li class="sidebar-item" style="padding-left: 20px;">
 										<a
-											class="sidebar-link"
-											{% if item.url %}href="{{item.url}}"{% endif %}
+											{% if item.url %}
+												class="sidebar-link waves-effect waves-dark sidebar-link"
+												href="{{item.url}}"
+											{% else %}
+												class="sidebar-link has-arrow waves-effect waves-dark"
+												href="javascript:void(0)"
+											{% endif %}
 											aria-expanded="false"
 										>
 											<i class="{{item.icon}}"></i>
 											<span class="hide-menu">{{item.title}} </span>
 										</a>
+										{% if item.submenu %}
+											<ul aria-expanded="false" class="collapse first-level">
+												{% for item in item.submenu %}
+													<li class="sidebar-item" style="padding-left: 20px;">
+														<a
+															class="sidebar-link"
+															{% if item.url %}href="{{item.url}}"{% endif %}
+															aria-expanded="false"
+														>
+															<i class="{{item.icon}}"></i>
+															<span class="hide-menu">{{item.title}} </span>
+														</a>
+													</li>
+												{% endfor %}
+											</ul>
+										{% endif %}
 									</li>
 								{% endfor %}
 							</ul>

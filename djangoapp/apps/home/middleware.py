@@ -15,10 +15,9 @@ class MenuMiddleware(MiddlewareMixin):
                     'color': '#27a9e3',
                     'url': reverse('home'),
                     'url_home': reverse('home'),
-                },
-                {
+                },{
                     'title': 'Processos',
-                    'color': '#ffb848',
+                    'color': '#28b779',
                     'icon': 'mdi mdi-view-list',
                     'url': '',
                     'url_home': reverse('listagem_processos'),
@@ -33,8 +32,39 @@ class MenuMiddleware(MiddlewareMixin):
                             'url': reverse('listagem_processos'),
                         },
                     ]
-                },
-                {
+                },{
+                    'title': 'Serviços',
+                    'color': '#ffb848',
+                    'icon': 'mdi mdi-wrench',
+                    'url': '',
+                    'url_home': '',
+                    'submenu':[
+                        {
+                            'title': 'Cadastro',
+                            'icon': 'mdi mdi-view-list',
+                            'url': reverse('cadastro_servicos'),
+                        },{
+                            'title': 'Listagem',
+                            'icon': 'mdi mdi-view-list',
+                            'url': reverse('listagem_servicos'),
+                        },{
+                            'title': 'Tipos de Servico',
+                            'icon': 'mdi mdi-adjust',
+                            'url': '',
+                            'submenu':[
+                                {
+                                    'title': 'Cadastro',
+                                    'icon': 'mdi mdi-file-outline',
+                                    'url': reverse('cadastro_tipo_servicos'),
+                                },{
+                                    'title': 'Listagem',
+                                    'icon': 'mdi mdi-view-list',
+                                    'url': reverse('listagem_tipo_servicos'),
+                                }
+                            ]
+                        }
+                    ]
+                },{
                     'title': 'Calculos',
                     'icon': 'mdi mdi-calculator',
                     'color': '#da542e',

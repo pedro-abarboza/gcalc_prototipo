@@ -13,7 +13,7 @@ class CadReclamante(CreateView):
         return [
             {
                 'title': 'Home',
-                'url': '',
+                'url': 'home',
                 'activate': None
             },{
                 'title': 'Processos',

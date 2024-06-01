@@ -27,6 +27,7 @@
 			<link href={% static 'assets/libs/flot/css/float-chart.css' %} rel="stylesheet" />
 			<link href={% static "dist/css/style.min.css"%} rel="stylesheet" />
 			<link href={% static "assets/libs/toastr/build/toastr.min.css"%} rel="stylesheet">
+			<link href="{% static 'assets/libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet"/>
 
 			{% block css %}{% endblock %}
 
@@ -62,10 +63,9 @@
 					<!-- Page wrapper  -->
 					<!-- ============================================================== -->
 					<div class="page-wrapper">
-							{% include 'base/breadcrumbs.html' %}
-							{% block container %}{% endblock%}
-							{% include 'base/footer.html' %}
-
+						{% include 'base/breadcrumbs.html' %}
+						{% block container %}{% endblock%}
+						{% include 'base/footer.html' %}
 					</div>
 			</div>
 			<!-- ============================================================== -->
@@ -76,12 +76,23 @@
 	</body>
 	{% include 'base/scripts.html' %}
 	<script src="{% static 'assets/libs/toastr/build/toastr.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-validation/dist/localization/messages_pt_BR.js' %}"></script>
+	<script>
+		$('#form').validate({
+			submitHandler: function(form) {
+				$(".preloader").fadeIn()
+				form.submit(); // Se o formulário for válido, ele será enviado
+			}
+		});
+	</script>
 	{% if messages %}
 		<script>
 			{% for message in messages %}
-				var MS = {% if message.tags == 'success' %}"{{ message|safe }}" {% else %}''{% endif %}
-				var ME = {% if message.tags == 'error' %}"{{ message|safe }}" {% else %}''{% endif %}
-				var MI = {% if message.tags == 'info' %}"{{ message|safe }}" {% else %}''{% endif %}
+				var MS = {% if message.tags == 'success' %}`{{ message|safe }}` {% else %}''{% endif %}
+				var ME = {% if message.tags == 'error' %}`{{ message|safe }}` {% else %}''{% endif %}
+				var MI = {% if message.tags == 'info' %}`{{ message|safe }}` {% else %}''{% endif %}
 			{% endfor %}
 			$(function(){
 					if(MS){toastr.success(MS, 'Sucesso!')};
