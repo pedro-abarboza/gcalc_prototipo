@@ -1,5 +1,9 @@
 {% extends "genericos/cadastro.html" %}
 {% load static %}
+{% block css %}
+	<link href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css" >
+	<link href="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.css' %}" rel="stylesheet" />
+{% endblock %}
 {% block form %}
 	<div class="form-group mt-3">
 		<label>Nº Processo</label>
@@ -24,7 +28,7 @@
 
 	<div class="form-group mt-3">
 		<label>Data de Ajuizamento</label>
-		<input name='dt_ajuizamento' type="text" class="form-control date-inputmask datepicker-autoclose" 
+		<input name='dt_ajuizamento' type="text" class="form-control datepicker date-inputmask" 
 			id="dt_ajuizamento" required
 		>
 	</div>
@@ -35,16 +39,13 @@
     <script src='{% static "dist/js/pages/mask/mask.init.js" %}'></script>
     <script src='{% static "assets/libs/select2/dist/js/select2.full.min.js" %}'></script>
     <script src='{% static "assets/libs/select2/dist/js/select2.min.js" %}'></script>
-	<script src='{% static "assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}'></script>
-	<script src='{% static "assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js" %}'></script>
-	<script src='{% static "dist/js/jquery-ui.min.js" %}'></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js" %}'></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/locale.js" %}'></script>
 
 	<script>
 		$( function() {
-			jQuery(".datepicker-autoclose").datepicker({
-				autoclose: true,
-				format: "dd/mm/yyyy",
-				language: "pt-BR",
+			$(".datepicker").datepicker({
+				language: 'pt-BR'
 			});
 			$( "#reclamada" ).autocomplete({
 				source: "{% url 'autocomplete_reclamada' %}"
