@@ -13,7 +13,7 @@
 		<select name='tipo_servico' class="form-control select" id="tipo_servico" required>
 			<option value="">-----</option>
 			{% for item in form.fields.tipo_servico.choices.queryset %}
-				<option value="{{item.0}}" 
+				<option value="{{item.id}}" 
 					{% if tipo_servico_id|safe == item.id|safe %}selected{%endif%}>{{item.descricao}}</option>
 			{% endfor %}
 		</select>
@@ -23,13 +23,6 @@
 		<label>{{form.fields.cliente.label}}</label>
 		<input name='cliente' type="text" class="form-control autocomplete" 
 			id="cliente" required
-		>
-	</div>
-
-	<div class="form-group mt-3">
-		<label>{{form.fields.tipo_servico.label}}</label>
-		<input name='reclamante' type="text" class="form-control autocomplete" 
-			id="reclamante" required
 		>
 	</div>
 
@@ -48,9 +41,7 @@
 
 	<div class="form-group mt-3">
 		<label>{{form.fields.observacao.label}}</label>
-		<input name='observacao' type="text" class="form-control" 
-			id="observacao" required
-		>
+		<input name='observacao' type="text" class="form-control" id="observacao">
 	</div>
 {% endblock %}
 
@@ -70,6 +61,9 @@
 			$(".select").select2();
 			$( "#processo" ).autocomplete({
 				source: "{% url 'autocomplete_processos' %}"
+			});
+			$( "#cliente" ).autocomplete({
+				source: "{% url 'autocomplete_clientes' %}"
 			});
 		});
 	</script>

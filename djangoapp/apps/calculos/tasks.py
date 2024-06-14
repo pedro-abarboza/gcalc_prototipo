@@ -45,11 +45,11 @@ def import_pjecalc_task(self, **kwargs):
 
     for file in files:
 
+        
+        arq_name=file.split('/')[-1]
         progress+=1
         progress_recorder.set_progress(progress, total_progress_recorder, 
             description="Lendo arquivo PJE-Calc - {}...".format(arq_name))
-        
-        arq_name=file.split('/')[-1]
         pdf_reader = PdfReader(file)
         pg_inicio = 0
 

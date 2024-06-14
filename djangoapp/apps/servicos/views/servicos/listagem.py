@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from apps.servicos.models import Servicos
 
 
-class ListagemServicos(ListView):
+class ListServicos(ListView):
     template_name='servicos/listagem.html'
     model = Servicos
 

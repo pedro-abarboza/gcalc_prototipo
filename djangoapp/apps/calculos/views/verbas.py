@@ -4,7 +4,7 @@ from apps.calculos.models import Calculos, VerbasCalc
 # Create your views here.
 
 
-class ListagemVerbas(ListView):
+class ListVerbas(ListView):
     template_name='calculos/listagem_verbas.html'
     model = VerbasCalc
 

@@ -7,7 +7,7 @@ from apps.calculos.models import Calculos
 # Create your views here.
 
 
-class RelatorioCalculos(ListView, RelatorioMixin):
+class RelCalculos(ListView, RelatorioMixin):
     template_name='calculos/relatorio.html'
     model = Calculos
 

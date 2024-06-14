@@ -1,0 +1,106 @@
+{% load static %}
+{% load functions %}
+<form id="form" class="form-horizontal wizard" action="{% url 'edicao_usuarios' form.instance.id %}" method="post">
+	{% csrf_token %}
+	<div class="modal-header">
+		<h5 class="modal-title">{{card_title}}</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<!-- ============================================================== -->
+		<!-- Container fluid  -->
+		<!-- ============================================================== -->
+		<div class="container-fluid">
+			<!-- ============================================================== -->
+			<!-- Start Page Content -->
+			<!-- ============================================================== -->
+			<div class="card">
+				<div class="form-group mt-3">
+					<label>{{form.fields.username.label}}</label>
+					<input name="username" type="text" class="form-control" maxlength={{form.fields.username.max_length}}
+						id="username" placeholder="" value="{{form.initial.username}}"
+					>
+					<small>{{form.fields.username.help_text}}</small>
+				</div>
+				
+				<div class="form-group mt-3">
+					<label>{{form.fields.first_name.label}}</label>
+					<input name="first_name" type="text" class="form-control" maxlength={{form.fields.first_name.max_length}}
+						placeholder="" value="{{form.initial.first_name}}"
+					>
+					<small>{{form.fields.first_name.help_text}}</small>
+				</div>
+				
+				<div class="form-group mt-3">
+					<label>{{form.fields.last_name.label}}</label>
+					<input name="last_name" type="text" class="form-control" maxlength={{form.fields.last_name.max_length}}
+						placeholder="" value="{{form.initial.last_name}}"
+					>
+					<small>{{form.fields.last_name.help_text}}</small>
+				</div>
+				<hr>
+
+				<div class="form-group mt-3">
+					<input type="checkbox" class="form-check-input" name="is_active" id="is_active"
+					{% if form.initial.is_active %} checked {% endif %}>
+					<label>{{form.fields.is_active.label}}</label><br>
+					<small>{{form.fields.is_active.help_text}}</small>
+				</div>
+				<hr>
+				
+				<div class="form-group mt-3">
+					<label>{{form.fields.date_joined.label}}: </label>
+					<span>{{form.initial.date_joined|date:"d/m/Y - H:m:s"}}</span><br>
+					<label>{{form.fields.last_login.label}}: </label>
+					<span>{{form.initial.last_login|date:"d/m/Y - H:m"}}</span>
+				</div>
+				<hr>
+
+				<div class="form-group mt-3" style="display: contents;">
+					<label>Permissões de Usuário: </label>
+					<select class="select form-control" name="user_permissions" id="user_permissions" multiple>
+					{% for item in permissions %}
+						<option value={{ item.id }} {% if item.id|safe in user_permissions %}selected{% endif %}>
+							{{ item.name|translate_name_tm }}
+						</option>
+					{% endfor %}
+					</select>
+				</div>
+
+				<div class="form-group mt-3" style="display: contents;">
+					<label>Grupos de Permissões: </label>
+					<select class="select form-control" name="groups" id="groups" multiple>
+					{% for item in groups %}
+						<option value={{ item.id }} {% if item.id|safe in user_groups %}selected{% endif %}>{{ item.name }}</option>
+					{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page Content -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+
+	<div class="modal-footer">
+	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+	<button type="submit" class="btn btn-primary">
+		Salvar
+	</button>
+	</div>
+</form>
+
+<script src="{% static 'assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js' %}"></script>
+<script src="{% static 'dist/js/pages/mask/mask.init.js' %}"></script>
+<script src="{% static 'assets/libs/select2/dist/js/select2.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$('.select').select2({
+			placeholder: 'Selecione as Permissões.',
+			allowClear: true
+		});
+	});
+</script>

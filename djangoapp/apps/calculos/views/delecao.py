@@ -16,7 +16,7 @@ class DelCalculos(DeleteView):
 
     def form_invalid(self, form):
         messages.error(self.request, "Erro na Deleção do Cálculo. {}".format(form.errors))
-        response = super().form_invalid(form)
+        return super().form_invalid(form)
         
     def form_valid(self, form):
         messages.success(self.request, "Cálculo Deletado com sucesso")

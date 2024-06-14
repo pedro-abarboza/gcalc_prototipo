@@ -6,7 +6,7 @@ from django.views.generic import ListView
 from apps.processos.models import Reclamantes
 
 
-class ListagemReclamantes(ListView):
+class ListReclamantes(ListView):
     template_name='processos/listagem.html'
     model = Reclamantes
 
