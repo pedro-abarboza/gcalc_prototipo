@@ -26,10 +26,10 @@ DATA_DIR = BASE_DIR.parent / 'data'
 SECRET_KEY = 'django-insecure-@ipe57g9%%fl12^nzmr71cwr06m7sb_$j99k*g&bndg4du*9lo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.getenv('DEBUG', 0)))
+DEBUG = bool(int(os.getenv('DEBUG', 1)))
 
 ALLOWED_HOSTS = [
-    h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',')
+    h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',')
     if h.strip()
 ]
 
@@ -95,12 +95,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'change-me'),
-        'NAME': os.getenv('POSTGRES_DB', 'change-me'),
-        'USER': os.getenv('POSTGRES_USER', 'change-me'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'change-me'),
-        'HOST': os.getenv('POSTGRES_HOST', 'change-me'),
-        'PORT': os.getenv('POSTGRES_PORT', 'change-me'),
+        'ENGINE': "django.db.backends.postgresql",
+        'NAME': os.getenv('POSTGRES_DB', 'gcalcprot'),
+        'USER': os.getenv('POSTGRES_USER', 'gcalc_master'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'pp2nt3ra'),
+        'HOST': os.getenv('POSTGRES_HOST', '127.0.0.1'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
