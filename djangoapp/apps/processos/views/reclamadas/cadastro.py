@@ -3,7 +3,7 @@ from django.views.generic import CreateView
 from apps.processos.models import Reclamadas
 
 
-class CadReclamada(CreateView):
+class CadReclamadas(CreateView):
     template_name='processos/cadastro.html'
     model = Reclamadas
     fields = '__all__'

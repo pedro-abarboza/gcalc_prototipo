@@ -6,7 +6,7 @@ from apps.processos.models import Processos, Andamentos
 from apps.processos.mixins.andamentos import AndamentosMixin
 
 
-class ListagemAndamentos(ListView, AndamentosMixin):
+class ListAndamentos(ListView, AndamentosMixin):
     template_name='processos/listagem_andamentos.html'
     model = Andamentos
 

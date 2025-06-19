@@ -1,16 +1,15 @@
 import re
-from typing import Any
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.contrib import messages
 
-from apps.servicos.models import TipoServico
+from apps.servicos.models import TipoServicos
 
 
 class CadTipoServicos(CreateView):
     template_name='servicos/tipo_servicos/cadastro.html'
-    model = TipoServico
+    model = TipoServicos
     fields = '__all__'
     
     def get_success_url(self):

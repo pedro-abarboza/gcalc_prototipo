@@ -5,7 +5,7 @@ from apps.processos.models import Processos
 # Create your views here.
 
 
-class ListagemCalculos(ListView):
+class ListCalculos(ListView):
     template_name='calculos/listagem.html'
     model = Calculos
 

@@ -1,7 +1,6 @@
 {% extends "genericos/cadastro.html" %}
 {% load static %}
 {% block css %}
-	<link href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css" >
 	<link href="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.css' %}" rel="stylesheet" />
 {% endblock %}
 {% block form %}
@@ -37,8 +36,6 @@
 {% block js %}
 	<script src='{% static "assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js" %}'></script>
     <script src='{% static "dist/js/pages/mask/mask.init.js" %}'></script>
-    <script src='{% static "assets/libs/select2/dist/js/select2.full.min.js" %}'></script>
-    <script src='{% static "assets/libs/select2/dist/js/select2.min.js" %}'></script>
 	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js" %}'></script>
 	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/locale.js" %}'></script>
 
@@ -48,10 +45,10 @@
 				language: 'pt-BR'
 			});
 			$( "#reclamada" ).autocomplete({
-				source: "{% url 'autocomplete_reclamada' %}"
+				source: "{% url 'autocomplete_reclamadas' %}"
 			});
 			$( "#reclamante" ).autocomplete({
-				source: "{% url 'autocomplete_reclamante' %}"
+				source: "{% url 'autocomplete_reclamantes' %}"
 			});
 		});
 	</script>

@@ -1,4 +1,3 @@
-from typing import Any
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.contrib import messages
@@ -50,14 +49,13 @@ class CadProcessos(CreateView):
             data.update({'reclamada': reclamada})
             data.pop('reclamante')
             data.update({'reclamante': reclamante})
-
             kwargs.update({'data': data})
 
         return kwargs
     
     def form_invalid(self, form):
         messages.error(self.request, "Erro no salvamento do Processo. {}".format(form.errors))
-        response = super().form_invalid(form)
+        return super().form_invalid(form)
         
 
     def form_valid(self, form):

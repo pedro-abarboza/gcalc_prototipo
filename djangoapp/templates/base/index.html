@@ -24,10 +24,12 @@
 				href="{% static 'assets/images/favicon.png' %}"
 			/>
 			<!-- Custom CSS -->
-			<link href={% static 'assets/libs/flot/css/float-chart.css' %} rel="stylesheet" />
-			<link href={% static "dist/css/style.min.css"%} rel="stylesheet" />
-			<link href={% static "assets/libs/toastr/build/toastr.min.css"%} rel="stylesheet">
+			<link href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css">
+			<link href="{% static 'assets/libs/flot/css/float-chart.css' %}" rel="stylesheet" />
+			<link href="{% static "dist/css/style.min.css"%}" rel="stylesheet" />
+			<link href="{% static "assets/libs/toastr/build/toastr.min.css"%}" rel="stylesheet">
 			<link href="{% static 'assets/libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet"/>
+			<link href="{% static "dist/css/jquery-ui.css"%}" rel="stylesheet">
 
 			{% block css %}{% endblock %}
 
@@ -71,6 +73,13 @@
 			<!-- ============================================================== -->
 			<!-- End Wrapper -->
 			<!-- ============================================================== -->
+			<div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true" style="display:none">
+				<div class="modal-dialog modal-xl modal-dialog-centered">
+					<div id="modal-content" class="modal-content">
+						
+					</div>
+				</div>
+			</div>
 
 			
 	</body>

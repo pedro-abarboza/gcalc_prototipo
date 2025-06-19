@@ -33,8 +33,46 @@ class MenuMiddleware(MiddlewareMixin):
                         },
                     ]
                 },{
-                    'title': 'Serviços',
+                    'title': 'Calculos',
+                    'icon': 'mdi mdi-calculator',
                     'color': '#ffb848',
+                    'url': '',
+                    'url_home': reverse('listagem_calculos'),
+                    'submenu':[
+                        {
+                            'title': 'Listagem',
+                            'icon': 'mdi mdi-view-list',
+                            'url': reverse('listagem_calculos'),
+                        },{
+                            'title': 'Relatório',
+                            'icon': 'mdi mdi-file-document-box',
+                            'url': reverse('relatorio_calculos'),
+                        },{
+                            'title': 'Import PJE-Calc',
+                            'icon': 'mdi mdi-cloud-upload',
+                            'url': reverse('pjecalc_upload'),
+                        },
+                    ]
+                },{
+                    'title': 'Clientes',
+                    'color': '#da542e',
+                    'icon': 'mdi mdi-view-list',
+                    'url': '',
+                    'url_home': reverse('listagem_clientes'),
+                    'submenu':[
+                        {
+                            'title': 'Cadastro',
+                            'icon': 'mdi mdi-file-outline',
+                            'url': reverse('cadastro_clientes'),
+                        },{
+                            'title': 'Listagem',
+                            'icon': 'mdi mdi-view-list',
+                            'url': reverse('listagem_clientes'),
+                        },
+                    ]
+                },{
+                    'title': 'Serviços',
+                    'color': '#2255a4',
                     'icon': 'mdi mdi-wrench',
                     'url': '',
                     'url_home': '',
@@ -65,24 +103,31 @@ class MenuMiddleware(MiddlewareMixin):
                         }
                     ]
                 },{
-                    'title': 'Calculos',
-                    'icon': 'mdi mdi-calculator',
+                    'title': 'Acesso',
                     'color': '#da542e',
+                    'icon': 'mdi mdi-account-card-details',
                     'url': '',
-                    'url_home': reverse('listagem_calculos'),
+                    'url_home': '',
                     'submenu':[
                         {
-                            'title': 'Listagem',
-                            'icon': 'mdi mdi-view-list',
-                            'url': reverse('listagem_calculos'),
+                            'title': 'Usuarios',
+                            'icon': 'mdi mdi-account',
+                            'url': reverse('listagem_usuarios'),
                         },{
-                            'title': 'Relatório',
-                            'icon': 'mdi mdi-file-document-box',
-                            'url': reverse('relatorio_calculos'),
-                        },{
-                            'title': 'Import PJE-Calc',
-                            'icon': 'mdi mdi-cloud-upload',
-                            'url': reverse('pjecalc_upload'),
+                            'title': 'Grupos',
+                            'icon': 'mdi mdi-account-multiple',
+                            'url': '',
+                            'submenu':[
+                                {
+                                    'title': 'Cadastro',
+                                    'icon': 'mdi mdi-file-outline',
+                                    'url': reverse('cadastro_grupos'),
+                                },{
+                                    'title': 'Listagem',
+                                    'icon': 'mdi mdi-view-list',
+                                    'url': reverse('listagem_grupos'),
+                                },
+                            ]
                         },
                     ]
                 },

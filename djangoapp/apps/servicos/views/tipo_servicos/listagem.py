@@ -1,11 +1,11 @@
 from django.views.generic import ListView
 
-from apps.servicos.models import TipoServico
+from apps.servicos.models import TipoServicos
 
 
-class ListagemTipoServicos(ListView):
+class ListTipoServicos(ListView):
     template_name='servicos/tipo_servicos/listagem.html'
-    model = TipoServico
+    model = TipoServicos
 
     def get_breadcrumbs(self):
         return [

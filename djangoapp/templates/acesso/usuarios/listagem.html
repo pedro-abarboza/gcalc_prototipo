@@ -1,0 +1,84 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block cad %}
+	<a type="button" class="btn btn-primary p-2"
+		onclick="open_cad()"
+		data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar novo Usuário">
+		<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+	</a>
+{% endblock %}
+{% block thead %}
+	<tr>
+		<th>Username</th>
+		<th>Nome</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody %}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.username }}</td>
+			<td class="py-1 align-middle">{{ item.first_name }}</td>
+			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					onclick="open_edit('{{item.id}}')"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+				</a>
+				<form id="form-delete" class="form-delete" action="{% url 'delete_usuarios' item.id %}" method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</button>
+				</form>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+	<div id="dialogDelete" title="Confirmar Deleção">
+		<p>Tem certeza de que deseja Deletar esse Cliente?</p>
+	</div>
+    <!-- this page js -->
+	<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/custom.js' %}"></script>
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/locale.js' %}"></script>
+	<script src="{% static 'dist/js/dialogs-custom.js' %}"></script>
+	<script>
+		$(".form-delete").submit(function(event) {
+			event.preventDefault(); // Impede o envio imediato
+			$("#dialogDelete").dialog("open"); // Abre o diálogo de confirmação
+		});
+
+		function open_edit(id){
+			$.ajax({
+				url: "{% url 'edicao_usuarios' %}"+"/"+id,
+				type:"get",
+				success: function(retorno){
+					$("#modal-content").html(retorno)
+					$("#Modal").modal('show')
+				}
+			})
+		}
+
+		function open_cad(){
+			$.ajax({
+				url: "{% url 'cadastro_usuarios' %}",
+				type:'get',
+				success: function(retorno){
+					$("#modal-content").html(retorno)
+					$("#Modal").modal('show')
+				}
+			})
+		}
+	</script>
+{% endblock %}

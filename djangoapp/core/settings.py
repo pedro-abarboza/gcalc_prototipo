@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'celery_progress',
 
+    'apps.acesso',
     'apps.calculos',
     'apps.clientes',
     'apps.home',
@@ -136,6 +137,16 @@ USE_I18N = True
 USE_TZ = True
 
 USE_THOUSAND_SEPARATOR = True
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('pt-br', 'Português Brasileiro'),
+    # Adicione outras linguagens conforme necessário
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 
 # Static files (CSS, JavaScript, Images)

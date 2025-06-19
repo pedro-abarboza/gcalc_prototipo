@@ -4,7 +4,7 @@ from apps.calculos.models import Calculos
 from apps.processos.models import Processos
 from apps.clientes.models import Clientes
 
-class TipoServico(models.Model):
+class TipoServicos(models.Model):
 
     descricao = models.CharField(verbose_name="Descrição", max_length=200,
                                  null=False, blank=False)
@@ -21,7 +21,7 @@ class TipoServico(models.Model):
 class Servicos(models.Model):
 
     tipo_servico = models.ForeignKey(
-        TipoServico, on_delete=models.DO_NOTHING,
+        TipoServicos, on_delete=models.DO_NOTHING,
         verbose_name='Tipo de Serviço',
         null=False, blank=False
     )
@@ -53,7 +53,8 @@ class Servicos(models.Model):
         blank=True
     )
 
-    observacao = models.TextField("Observações")
+    observacao = models.TextField("Observações", 
+        null=True, blank=True)
 
 
     class Meta:

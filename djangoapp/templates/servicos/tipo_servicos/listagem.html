@@ -8,7 +8,7 @@
 	</tr>
 {% endblock %}
 
-{% block tbody%}
+{% block tbody %}
 	{% for item in object_list %}
 		<tr>
 			<td class="py-1 align-middle">{{ item.descricao }}</td>
@@ -19,7 +19,7 @@
 					data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
 					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
 				</a>
-				<form action="{% url 'delete_tipo_servicos' item.id %}" method="post">
+				<form id="form-delete" class="form-delete" action="{% url 'delete_tipo_servicos' item.id %}" method="post">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
 						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar">
@@ -29,4 +29,27 @@
 			</td>
 		</th>
 	{% endfor %}
+{% endblock %}
+
+{% block js %}
+	<div id="dialogDelete" title="Confirmar Deleção">
+		<p>Tem certeza de que deseja Deletar esse Tipo de Serviço?</p>
+	</div>
+    <!-- this page js -->
+	<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/custom.js' %}"></script>
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/locale.js' %}"></script>
+	<script src="{% static 'dist/js/dialogs-custom.js' %}"></script>
+	<script>
+		$(".form-delete").submit(function(event) {
+			event.preventDefault(); // Impede o envio imediato
+			$("#dialogDelete").dialog("open"); // Abre o diálogo de confirmação
+		});
+	</script>
 {% endblock %}
