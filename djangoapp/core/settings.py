@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'apps.home.middleware.MenuMiddleware',
+    'apps.home.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -124,6 +125,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Login
+LOGIN_URL = "/login/"
+LOGOUT_URL = "/logout/"
+LOGIN_REDIRECT_URL = "/"  # -- Usada na tela de Login.
+APPEND_SLASH = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

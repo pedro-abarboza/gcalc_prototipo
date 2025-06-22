@@ -1,12 +1,22 @@
 {% extends "genericos/listagem_simples.html" %}
 {% load static %}
+
+{% block cad %}
+	{% if perms.processos.add_processos %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro()" title="Cadastrar novo Processo">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+
 {% block thead %}
 	<tr>
 		<th>Nº do Processo</th>
 		<th>Reclamante</th>
 		<th>Reclamada</th>
 		<th>Dt. Ajuizamento</th>
-		<th></th>
+		<th>Ações</th>
 	</tr>
 {% endblock %}
 
@@ -25,24 +35,62 @@
 				{{ item.dt_ajuizamento|date:"d/m/Y" }}
 			</td>
 			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
-				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
-					href="{% url 'listagem_andamentos' item.id %}"
-					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Andamentos">
-					<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
-				</a>
-				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
-					href="{% url 'listagem_calculos' item.id %}"
-					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Calculos">
-					<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
-				</a>
-				<form action="{% url 'delete_processos' item.id %}" method="post">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
-						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Processo">
+				{% if perms.processos.change_processos %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 mx-1"
+						onclick="edicao('{{item.id}}')" title="Editar">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.view_andamentos %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 mx-1"
+						onclick="andamento('{{item.id}}')" title="Ir para Andamentos">
+						<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.calculos.view_calculos %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 mx-1"
+						onclick="calculo('{{item.id}}')" title="Ir para Calculos">
+						<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.delecao_processos %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 mx-1"
+						onclick="deletar('{{item.id}}')" title="Deletar Processo">
 						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
-					</button>
-				</form>
+					</a>
+				{% endif %}
 			</td>
 		</th>
 	{% endfor %}
+{% endblock %}
+
+{% block js %}
+
+    <!-- this page js -->
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+	<script>
+		function cadastro(){open("{% url 'cadastro_processos' %}")};
+		function edicao(id){open("{% url 'edicao_processos' %}"+"/"+id)};
+		function andamento(id){open("{% url 'listagem_andamentos' %}"+"/"+id)};
+		function calculo(id){open("{% url 'listagem_calculos' %}"+"/"+id)};
+		function deletar(id){open("{% url 'delecao_processos' %}"+"/"+id)};
+		function atualizar(id){
+			$("#Modal").modal('hide')
+			$("#modal-content").html('')
+			$.ajax({
+				url: "{% url 'atualizar_andamentos' %}"+"/"+id,
+				type:'get',
+				success: function(retorno){
+					if (retorno['status'] == "success") {
+						andamento(id);
+					}
+				}
+			})
+		};
+
+	</script>
 {% endblock %}

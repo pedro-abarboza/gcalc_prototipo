@@ -6,36 +6,18 @@ from apps.clientes.models import Clientes
 
 
 class EdiClientes(UpdateView):
-    template_name='clientes/cadastro.html'
+    template_name='clientes/form.html'
     model = Clientes
     fields = '__all__'
     
     def get_success_url(self):
         return reverse('listagem_clientes')
-    
-    def get_breadcrumbs(self):
-        return [
-            {
-                'title': 'Home',
-                'url': 'home',
-                'activate': None
-            },{
-                'title': 'Clientes',
-                'url': None,
-                'activate': 'true'
-            },{
-                'title': 'Edição',
-                'url': None,
-                'activate': 'true'
-            }
-        ]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = self.get_breadcrumbs()
-        context['title'] = 'Clientes'
-        context['card_title'] = 'Edição'
-        context['subtitle'] = 'Aqui você edita os Clientes.'
+        context['card_title'] = 'Edição de Cliente'
+        context['subtitle'] = 'Aqui você edita os dados do {}.'.format(self.object.nome)
+        context['subtitle_list'] = 'Aqui visualiza os Tipos de Serviços cadastrados para {}.'.format(self.object.nome)
         context['form'] = self.get_form()
         
         return context

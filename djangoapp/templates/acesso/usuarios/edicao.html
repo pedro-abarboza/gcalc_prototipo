@@ -58,10 +58,10 @@
 
 				<div class="form-group mt-3" style="display: contents;">
 					<label>Permissões de Usuário: </label>
-					<select class="select form-control" name="user_permissions" id="user_permissions" multiple>
+					<select class="select form-control" name="user_permissions" id="user_permissions" multiple style="height: auto;">
 					{% for item in permissions %}
 						<option value={{ item.id }} {% if item.id|safe in user_permissions %}selected{% endif %}>
-							{{ item.name|translate_name_tm }}
+							{{ item.name|translate_permission }}
 						</option>
 					{% endfor %}
 					</select>

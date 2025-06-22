@@ -17,13 +17,13 @@ urlpatterns = [
     path('cadastro_usuarios', CadUsuarios.as_view(), name='cadastro_usuarios'),
     path('edicao_usuarios', EdiUsuarios.as_view(), name='edicao_usuarios'),
     path('edicao_usuarios/<int:pk>', EdiUsuarios.as_view(), name='edicao_usuarios'),
-    path('delete_usuarios', DelUsuarios.as_view(), name='delete_usuarios'),
-    path('delete_usuarios/<int:pk>', DelUsuarios.as_view(), name='delete_usuarios'),
+    path('delecao_usuarios', DelUsuarios.as_view(), name='delecao_usuarios'),
+    path('delecao_usuarios/<int:pk>', DelUsuarios.as_view(), name='delecao_usuarios'),
 
     path('listagem_grupos', ListagemGrupos.as_view(), name='listagem_grupos'),
     path('cadastro_grupos', CadGrupos.as_view(), name='cadastro_grupos'),
     path('edicao_grupos', EdiGrupos.as_view(), name='edicao_grupos'),
     path('edicao_grupos/<int:pk>', EdiGrupos.as_view(), name='edicao_grupos'),
-    path('delete_grupos', DelGrupos.as_view(), name='delete_grupos'),
-    path('delete_grupos/<int:pk>', DelGrupos.as_view(), name='delete_grupos'),
+    path('delecao_grupos', DelGrupos.as_view(), name='delecao_grupos'),
+    path('delecao_grupos/<int:pk>', DelGrupos.as_view(), name='delecao_grupos'),
 ]

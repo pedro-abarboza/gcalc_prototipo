@@ -26,7 +26,7 @@
 					data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
 					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
 				</a>
-				<form id="form-delete" class="form-delete" action="{% url 'delete_usuarios' item.id %}" method="post">
+				<form id="form-delete" class="form-delete" action="{% url 'delecao_usuarios' item.id %}" method="post">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
 						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar">
@@ -50,8 +50,8 @@
 			'language': CUSTOM_DATATABLE
 		});
     </script>
-	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js' %}"></script>
-	<script src="{% static 'assets/libs/jquery-ui-1.13.3.custom/locale.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-ui-1.14.1/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-ui-1.14.1/locale.js' %}"></script>
 	<script src="{% static 'dist/js/dialogs-custom.js' %}"></script>
 	<script>
 		$(".form-delete").submit(function(event) {

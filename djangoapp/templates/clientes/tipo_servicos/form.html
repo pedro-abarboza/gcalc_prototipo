@@ -1,0 +1,80 @@
+{% load static %}
+
+<div class="modal-dialog modal-md modal-dialog-centered">
+	<div id="modal-content-md" class="modal-content">
+		<form id="form_modal" class="form-horizontal wizard">
+			{% csrf_token %}
+			<div class="modal-header">
+				<div>
+					<h4 class="modal-title">{{card_title}}</h4>
+					<small>{{subtitle}}</small>
+				</div>
+				<button type="button" class="btn-close" 
+					data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#Modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body py-0">
+				<!-- ============================================================== -->
+				<!-- Container fluid  -->
+				<!-- ============================================================== -->
+				<div class="container-fluid">
+
+					<div class="form-group mt-3">
+						<label>{{form.fields.descricao.label}}</label>
+						<input name="descricao" type="text" class="form-control" maxlength={{form.fields.descricao.max_length}}
+							id="descricao" placeholder="Digite a Descrição do Serviço" required value="{{form.initial.descricao}}"
+						>
+					</div>
+
+					<div class="form-group mt-3">
+						<label>{{form.fields.valor.label}}</label>
+						<input name='valor' type="text" class="form-control real-inputmask" id="valor" value={{form.initial.valor}}>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" 
+					data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#Modal" aria-label="Close">
+					Fechar
+				</button>
+				{% if form.instance.id %}
+					<input type="hidden" name="pk" value="{{form.instance.id}}">
+					<input type="hidden" name="cliente" value="{{form.instance.cliente.id}}">
+					<button type="submit" class="btn btn-primary" onclick="salvar_edi_tipo_servico('{{form.instance.cliente.id}}')">
+						Salvar
+					</button>
+				{% else %}
+					<input type="hidden" name="cliente" value="{{cliente_id}}">
+					<button type="submit" class="btn btn-primary" onclick="salvar_cad_tipo_servico('{{cliente_id}}')">
+						Salvar
+					</button>
+				{% endif %}
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$( function() {
+		$(".datepicker").datepicker({
+			language: 'pt-BR'
+		});
+		$( "#reclamada" ).autocomplete({
+			source: "{% url 'autocomplete_reclamadas' %}"
+		});
+		$( "#reclamante" ).autocomplete({
+			source: "{% url 'autocomplete_reclamantes' %}"
+		});
+		$(".real-inputmask").inputmask({
+			prefix: "R$ ",
+			groupSeparator: ".",
+			radixPoint: ",",
+			alias: "numeric",
+			placeholder: "0",
+			autoGroup: !0,
+			digits: 2,
+			digitsOptional: !1,
+			clearMaskOnLostFocus: !1,
+		});
+	});
+</script>

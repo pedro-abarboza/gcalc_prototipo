@@ -1,0 +1,84 @@
+{% load static %}
+{% load functions %}
+<div class="modal-dialog modal-md modal-dialog-centered">
+	<div id="modal-content-md" class="modal-content">
+		<form id="form" class="form-horizontal wizard" action="{% url url_form %}" method="post">
+			{% csrf_token %}
+			<div class="modal-header">
+				{% if form.instance.id %}
+					<input type="hidden" name="pk" value="{{form.instance.id}}">
+				{% endif %}
+				<h5 class="modal-title">{{card_title}}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body py-0">
+				<!-- ============================================================== -->
+				<!-- Container fluid  -->
+				<!-- ============================================================== -->
+				<div class="container-fluid">
+					<!-- ============================================================== -->
+					<!-- Start Page Content -->
+					<!-- ============================================================== -->
+					<div class="card">
+						<div class="form-group mt-3">
+							<label>Nº Processo</label>
+							<input name='n_processo' type="text" class="form-control processo-inputmask" 
+								id="n_processo" placeholder="Digite o nº do Processo" required 
+								value="{{ form.instance.n_processo|default_if_none:'' }}">
+						</div>
+
+						<div class="form-group mt-3">
+							<label>Reclamada</label>
+							<input name='reclamada' type="text" class="form-control autocomplete" 
+								value="{{ form.instance.reclamada|default_if_none:'' }}"
+								id="reclamada" required >
+						</div>
+
+						<div class="form-group mt-3">
+							<label>Reclamante</label>
+							<input name='reclamante' type="text" class="form-control autocomplete" 
+								value="{{ form.instance.reclamante|default_if_none:'' }}"
+								id="reclamante" required >
+						</div>
+
+						<div class="form-group mt-3">
+							<label>Data de Ajuizamento</label>
+							<input name='dt_ajuizamento' type="text" class="form-control datepicker date-inputmask" 
+								value="{{ form.instance.dt_ajuizamento|date:'d/m/Y' }}"
+								id="dt_ajuizamento" required >
+						</div>
+					</div>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Page Content -->
+				<!-- ============================================================== -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+			<button type="submit" class="btn btn-primary">
+				Salvar
+			</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script>
+	$( function() {
+		$(".datepicker").datepicker({
+			language: 'pt-BR'
+		});
+		$( "#reclamada" ).autocomplete({
+			source: "{% url 'autocomplete_reclamadas' %}"
+		});
+		$( "#reclamante" ).autocomplete({
+			source: "{% url 'autocomplete_reclamantes' %}"
+		});
+		$(".processo-inputmask").inputmask("9999999-99.9999.9.99.9999")
+	});
+</script>

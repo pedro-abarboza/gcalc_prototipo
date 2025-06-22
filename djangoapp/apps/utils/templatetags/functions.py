@@ -15,9 +15,23 @@ def translate_name(name):
         retorno += _(palavra.lower())+" "
     return retorno.capitalize().strip()
 
-@register.filter("translate_name_tm")
+@register.filter("translate_permission")
 def translate_name(name):
+    dict_translate = {
+        'add': 'Adicionar',
+        'change': 'Alterar',
+        'delete': 'Excluir',
+        'view': 'Visualizar',
+        'list': 'Listar',
+        'group' : 'Grupo',
+        'permission': 'Permissão',
+        'user': 'Usuário',
+        'Can': '',
+    }
     retorno=''
     for palavra in name.split(' '):
-        retorno += _(palavra.lower()).capitalize()+" "
+        if palavra in dict_translate:
+            retorno += dict_translate[palavra]+" "
+        else:
+            retorno += palavra+" "
     return retorno.strip()

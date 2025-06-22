@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="pt_BR">
 	<head>
 			<meta charset="utf-8" />
 			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,11 +8,11 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<meta
 				name="keywords"
-				content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template"
+				content="gestão, cálculos, jurídicos, trabalhistas, G-Calc, sistema, software, jurídico"
 			/>
 			<meta
 				name="description"
-				content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
+				content="Sistema de Gerenciamento de Cálculos Jurídicos Trabalhistas - G-Calc"
 			/>
 			<meta name="robots" content="noindex,nofollow" />
 			<title>G-Calc</title>
@@ -26,10 +26,11 @@
 			<!-- Custom CSS -->
 			<link href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}" rel="stylesheet" type="text/css">
 			<link href="{% static 'assets/libs/flot/css/float-chart.css' %}" rel="stylesheet" />
-			<link href="{% static "dist/css/style.min.css"%}" rel="stylesheet" />
-			<link href="{% static "assets/libs/toastr/build/toastr.min.css"%}" rel="stylesheet">
+			<link href="{% static 'assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.css' %}" rel="stylesheet" />
+			<link href="{% static 'assets/libs/toastr/build/toastr.min.css' %}" rel="stylesheet">
 			<link href="{% static 'assets/libs/jquery-steps/jquery.steps.css' %}" rel="stylesheet"/>
-			<link href="{% static "dist/css/jquery-ui.css"%}" rel="stylesheet">
+			<link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet" />
+			<link href="{% static 'dist/css/jquery-ui.css' %}" rel="stylesheet">
 
 			{% block css %}{% endblock %}
 
@@ -74,20 +75,40 @@
 			<!-- End Wrapper -->
 			<!-- ============================================================== -->
 			<div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true" style="display:none">
-				<div class="modal-dialog modal-xl modal-dialog-centered">
-					<div id="modal-content" class="modal-content">
+			<!--	
+				<div class="modal-dialog modal-sm modal-dialog-centered">
+					<div id="modal-content-sm" class="modal-content">
 						
 					</div>
 				</div>
+			-->
+			</div>
+
+			<div class="modal fade" id="Modal1" tabindex="-1" aria-hidden="true" style="display:none">
+			<!--	
+				<div class="modal-dialog modal-sm modal-dialog-centered">
+					<div id="modal-content-sm" class="modal-content">
+						
+					</div>
+				</div>
+			-->
 			</div>
 
 			
 	</body>
 	{% include 'base/scripts.html' %}
-	<script src="{% static 'assets/libs/toastr/toastr.js' %}"></script>
+	<script src='{% static "assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js" %}'></script>
 	<script src="{% static 'assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
 	<script src="{% static 'assets/libs/jquery-validation/dist/jquery.validate.min.js' %}"></script>
 	<script src="{% static 'assets/libs/jquery-validation/dist/localization/messages_pt_BR.js' %}"></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/jquery-ui.min.js" %}'></script>
+	<script src='{% static "assets/libs/jquery-ui-1.13.3.custom/locale.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.full.min.js" %}'></script>
+    <script src='{% static "assets/libs/select2/dist/js/select2.min.js" %}'></script>
+	<script src="{% static 'assets/libs/toastr/toastr.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/custom.js' %}"></script>
+    
 	<script>
 		$('#form').validate({
 			submitHandler: function(form) {
@@ -95,6 +116,59 @@
 				form.submit(); // Se o formulário for válido, ele será enviado
 			}
 		});
+		function open(url){
+			let isOpen = $("#Modal")[0].classList.contains('show')
+			if(isOpen){
+				$("#Modal").modal('hide')
+				$("#Modal").html('')
+			}
+			$.ajax({
+				url: url,
+				type:'get',
+				success: function(retorno){
+					$("#Modal").html(retorno)
+					$("#Modal").modal('show')
+				}
+			})
+		}
+
+		function open1(url){
+			let isOpen = $("#Modal")[0].classList.contains('show')
+			if(isOpen){
+				$("#Modal").modal('hide')
+			}
+			$.ajax({
+				url: url,
+				type:'get',
+				success: function(retorno){
+					$("#Modal1").html(retorno)
+					$("#Modal1").modal('show')
+				}
+			})
+		}
+
+		function salvar_modal(url_form_modal1, url_lista_modal){
+			let form = $("#form_modal")[0]
+			$("#Modal1").modal('hide')
+			$("#Modal1").html('')
+			$.ajax({
+				url: url_form_modal1,
+				data: $(form).serialize(),
+				type: 'post',
+				success: function(retorno){
+					open(url_lista_modal)
+					if(retorno['result']=='success'){
+						toastr.success(retorno['message'], 'Sucesso!');
+					}else{
+						toastr.error(retorno['message'], 'Erro!');
+					}
+				},
+				error: function(xhr, status, error){
+					toastr.error(error, 'Erro!');
+				}
+			})
+		}
+
 	</script>
 	{% if messages %}
 		<script>

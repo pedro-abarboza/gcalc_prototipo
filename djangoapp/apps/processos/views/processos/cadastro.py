@@ -6,32 +6,22 @@ from apps.processos.models import Processos, Reclamadas, Reclamantes
 
 
 class CadProcessos(CreateView):
-    template_name='processos/cadastro.html'
+    template_name='processos/form.html'
     model = Processos
     fields = '__all__'
     
     def get_success_url(self):
         return reverse('listagem_processos')
     
-    def get_breadcrumbs(self):
-        return [
-            {
-                'title': 'Home',
-                'url': 'home',
-                'activate': None
-            },{
-                'title': 'Processos',
-                'url': 'listagem_processos',
-                'activate': 'true'
-            }
-        ]
+    def get_url_form(self):
+        return reverse('cadastro_processos')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = self.get_breadcrumbs()
         context['title'] = 'Processos'
         context['card_title'] = 'Cadastro'
         context['subtitle'] = 'Aqui você cadastra novos processos.'
+        context['url_form'] = self.get_url_form()
         context['form'] = self.get_form()
         
         return context

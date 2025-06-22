@@ -19,7 +19,7 @@
 		<select class="select form-control" name="permissions" id="permissions" multiple>
 		{% for item in permissions %}
 			<option value={{ item.id }} {% if item.id|safe in permissions %}selected{% endif %}>
-				{{ item.name|translate_name_tm }}
+				{{ item.name|translate_permission }}
 			</option>
 		{% endfor %}
 		</select>

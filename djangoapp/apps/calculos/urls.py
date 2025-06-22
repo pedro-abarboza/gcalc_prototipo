@@ -15,8 +15,8 @@ urlpatterns = [
     path('listagem_calculos', ListCalculos.as_view(), name='listagem_calculos'),
     path('listagem_calculos/<int:processo_id>', ListCalculos.as_view(), name='listagem_calculos'),
 
-    path('delete_calculos/', DelCalculos.as_view(), name='delete_calculos'),
-    path('delete_calculos/<int:pk>', DelCalculos.as_view(), name='delete_calculos'),
+    path('delecao_calculos/', DelCalculos.as_view(), name='delecao_calculos'),
+    path('delecao_calculos/<int:pk>', DelCalculos.as_view(), name='delecao_calculos'),
 
     path('listagem_verbas', ListVerbas.as_view(), name='listagem_verbas'),
     path('listagem_verbas/<int:calculo_id>', ListVerbas.as_view(), name='listagem_verbas'),

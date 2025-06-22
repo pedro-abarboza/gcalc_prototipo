@@ -7,36 +7,21 @@ from apps.clientes.models import Clientes
 
 
 class CadClientes(CreateView):
-    template_name='clientes/cadastro.html'
+    template_name='clientes/form.html'
     model = Clientes
     fields = '__all__'
     
     def get_success_url(self):
         return reverse('listagem_clientes')
     
-    def get_breadcrumbs(self):
-        return [
-            {
-                'title': 'Home',
-                'url': 'home',
-                'activate': None
-            },{
-                'title': 'Clientes',
-                'url': '',
-                'activate': None
-            },{
-                'title': 'Cadastro',
-                'url': '',
-                'activate': 'True'
-            }
-        ]
+    def get_url_form(self):
+        return reverse('cadastro_clientes')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = self.get_breadcrumbs()
-        context['title'] = 'Clientes'
-        context['card_title'] = 'Cadastro'
+        context['card_title'] = 'Cadastro de Clientes'
         context['subtitle'] = 'Aqui você cadastra novos Clientes.'
+        context['url_form'] = self.get_url_form()
         context['form'] = self.get_form()
         return context
     
