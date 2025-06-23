@@ -21,3 +21,11 @@ class ListTipoServicosCliente(ListView):
         context['cliente_id'] = self.kwargs['cliente_id']
         
         return context
+
+
+class ListTipoServicosClienteJson(View):
+    
+    def get(self, *args, **kwargs):
+        result = list(Clientes.objects.get(id = kwargs['cliente_id']).tiposervicos_set.all().values_list('id', 'descricao'))
+        data = json.dumps(result)
+        return HttpResponse(data, 'aplication/json')

@@ -21,12 +21,12 @@
 		<tr>
 			<td class="py-1 align-middle">{{ item.descricao }}</td>
 			<td class="py-1 align-middle" title="{{ item.valor }}">R$ {{ item.valor|floatformat:2 }}</td>
-			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
-				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+			<td class="py-1 align-middle justify-content-md-center" >
+				<a type="button" class="btn btn-outline-info px-1 py-0 m-1"
 					onclick="edicao_tipo_servico('{{item.id}}')" title="Editar">
 					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
 				</a>
-				<a type="button" class="btn btn-outline-danger px-1 py-0 mx-1"
+				<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
 					onclick="delecao_tipo_servico('{{item.id}}')" title="Editar">
 					<i class="mdi mdi-delete" style="font-size: 15px;"></i>
 				</a>

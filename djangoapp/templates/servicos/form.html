@@ -1,7 +1,7 @@
 {% load static %}
 <div class="modal-dialog modal-md modal-dialog-centered">
 	<div id="modal-content-md" class="modal-content">
-		<form id="form" class="form-horizontal wizard">
+		<form id="form" class="form-horizontal wizard" action="{{ url_form }}" method="post">
 			{% csrf_token %}
 			<div class="modal-header">
 				<h5 class="modal-title">{{card_title}}</h5>
@@ -19,11 +19,12 @@
 						<div class="form-group mt-3 row">
 							<label>{{form.fields.cliente.label}}</label>
 							<div class="col-12">
-								<select name='cliente' class="form-control select2" id="cliente" required style="width: 100%;">
+								<select name='cliente' class="form-control select2" id="cliente" required style="width: 100%;"
+									onchange="carregar_tp(this)">
 									<option value="">-----</option>
-									{% for item in form.fields.cliente.choices.queryset %}
+									{% for item in clientes %}
 										<option value="{{item.id}}" 
-											{% if form.instance.cliente.id|safe == item.id|safe %}selected{%endif%}>{{item.descricao}}</option>
+											{% if form.instance.cliente.id|safe == item.id|safe %}selected{% endif %}>{{item.nome}}</option>
 									{% endfor %}
 								</select>
 							</div>
@@ -33,20 +34,9 @@
 							<label>{{form.fields.tipo_servico.label}}</label>
 							<div class="col-12">
 								<select name='tipo_servico' class="form-control select2" id="tipo_servico" required style="width: 100%;">
-									<option value="">-----</option>
-									{% for item in form.fields.tipo_servico.choices.queryset %}
-										<option value="{{item.id}}" 
-											{% if tipo_servico_id|safe == item.id|safe %}selected{%endif%}>{{item.descricao}}</option>
-									{% endfor %}
+									<option value="">Selecione um Cliente</option>
 								</select>
 							</div>
-						</div>
-
-						<div class="form-group mt-3">
-							<label>{{form.fields.cliente.label}}</label>
-							<input name='cliente' type="text" class="form-control autocomplete" 
-								id="cliente" required
-							>
 						</div>
 
 						<div class="form-group mt-3">
@@ -95,4 +85,24 @@
 		$(".select2").select2();
 		$(".processo-inputmask").inputmask("9999999-99.9999.9.99.9999")
 	});
+	function carregar_tp(cliente_id){
+		console.log('teste')
+		$.ajax({
+			url: '{% url "listagem_tipo_servicos_cliente_select" %}'+'/'+cliente_id.value,
+			type: 'get',
+			success: function(data) {
+				let select = $('#tipo_servico')[0];
+				select.innerHTML="";
+				let option = document.createElement("option");
+				option.text = "Selecione um Tipo de Serviço";
+				select.appendChild(option);
+				data.forEach(function(item) {
+					option = document.createElement("option");
+					option.value = item[0];
+  					option.text = item[1];
+					select.appendChild(option);
+				});
+			}
+		});
+	}
 </script>

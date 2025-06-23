@@ -16,6 +16,7 @@ class Servicos(models.Model):
     )
 
     tipo_servico = models.CharField(
+        choices=[(ts.descricao, ts.descricao) for ts in TipoServicos.objects.all()],
         verbose_name='Tipo de Serviço',
         null=False, blank=False
     )

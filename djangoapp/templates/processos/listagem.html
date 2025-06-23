@@ -23,38 +23,38 @@
 {% block tbody%}
 	{% for item in object_list %}
 		<tr>
-			<td class="py-1 align-middle">{{ item.n_processo }}</td>
-			<td class="py-1 align-middle" title="{{ item.reclamada }}">
-				<span class="text-truncate tt-table">{{ item.reclamada }}</span>
+			<td class="py-1 align-middle col-3">{{ item.n_processo }}</td>
+			<td class="py-1 align-middle col-2" title="{{ item.reclamada }}">
+				<span class="d-inline-block text-truncate" style="max-width: 200px;">{{ item.reclamada|default_if_none:'' }}</span>
 			</td>
-			<td class="py-1 align-middle" title="{{ item.reclamante }}">
-				<span class="text-truncate tt-table">{{ item.reclamante }}</span>
+			<td class="py-1 align-middle col-2" title="{{ item.reclamante }}">
+				<span class="d-inline-block text-truncate" style="max-width: 200px;">{{ item.reclamante|default_if_none:'' }}</span>
 			</td>
 			<td class="py-1 align-middle">
 				<input type="hidden" value='{{ item.dt_ajuizamento|date:"Ymd" }}'>
 				{{ item.dt_ajuizamento|date:"d/m/Y" }}
 			</td>
-			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
+			<td class="py-1 align-middle justify-content-md-center">
 				{% if perms.processos.change_processos %}
-					<a type="button" class="btn btn-outline-primary px-1 py-0 mx-1"
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
 						onclick="edicao('{{item.id}}')" title="Editar">
 						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
 					</a>
 				{% endif %}
 				{% if perms.processos.view_andamentos %}
-					<a type="button" class="btn btn-outline-secondary px-1 py-0 mx-1"
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
 						onclick="andamento('{{item.id}}')" title="Ir para Andamentos">
 						<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
 					</a>
 				{% endif %}
 				{% if perms.calculos.view_calculos %}
-					<a type="button" class="btn btn-outline-secondary px-1 py-0 mx-1"
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
 						onclick="calculo('{{item.id}}')" title="Ir para Calculos">
 						<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
 					</a>
 				{% endif %}
 				{% if perms.processos.delecao_processos %}
-					<a type="button" class="btn btn-outline-danger px-1 py-0 mx-1"
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
 						onclick="deletar('{{item.id}}')" title="Deletar Processo">
 						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
 					</a>
