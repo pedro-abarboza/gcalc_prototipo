@@ -1,0 +1,41 @@
+{% load static %}
+{% load functions %}
+<div class="modal-dialog modal-md modal-dialog-centered">
+	<div id="modal-content-md" class="modal-content">
+		<form id="form" class="form-horizontal wizard" action="{% url 'delecao_servicos' object.id %}" method="post">
+			{% csrf_token %}
+			<div class="modal-header">
+				<h5 class="modal-title">{{card_title}}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body py-0">
+				<!-- ============================================================== -->
+				<!-- Container fluid  -->
+				<!-- ============================================================== -->
+				<div class="container-fluid">
+					<!-- ============================================================== -->
+					<!-- Start Page Content -->
+					<!-- ============================================================== -->
+					<div class="card">
+						<div class="form-group mt-3">
+							<h3>Você tem certeza que deseja deletar esse Serviço?</h3>
+						</div>
+					</div>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Page Content -->
+				<!-- ============================================================== -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+			<button type="submit" class="btn btn-danger">
+				Sim
+			</button>
+			</div>
+		</form>
+	</div>
+</div>

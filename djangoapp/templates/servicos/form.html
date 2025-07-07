@@ -1,0 +1,209 @@
+{% load static %}
+<div class="modal-dialog modal-md modal-dialog-centered">
+	<div id="modal-content-md" class="modal-content">
+		<form id="form" class="form-horizontal wizard" action="{{ url_form }}" method="post">
+			{% csrf_token %}
+			<div class="modal-header">
+				{% if form.instance.id %}
+					<input type="hidden" name="pk" value="{{form.instance.id}}">
+				{% endif %}
+				<h5 class="modal-title">{{card_title}}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body py-0">
+				<!-- ============================================================== -->
+				<!-- Container fluid  -->
+				<!-- ============================================================== -->
+				<div class="container-fluid">
+					<!-- ============================================================== -->
+					<!-- Start Page Content -->
+					<!-- ============================================================== -->
+					<div class="card">
+						<div class="form-group mt-3 row">
+							<label>{{form.fields.cliente.label}}</label>
+							<div class="col-12">
+								<select name='cliente' class="form-control select2" id="cliente" required style="width: 100%;"
+									onchange="carregar_tp(this)">
+									<option value=""></option>
+									{% for item in clientes %}
+										<option value="{{item.0}}" 
+											{% if form.instance.cliente.id == item.0 %}selected{% endif %}>{{item.1}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group mt-3">
+							<label>{{form.fields.processo.label}}</label>
+							<input name='processo' type="text" class="form-control processo-inputmask" 
+								id="processo" required value="{{form.instance.processo}}"
+							>
+						</div>
+
+						<div class="form-group mt-3 row">
+							<label>{{form.fields.tipo_servico.label}}</label>
+							<div class="col-12">
+								<select name='tipo_servico' class="form-control select2" id="tipo_servico" 
+									onchange="carregar_rs(this)" required style="width: 100%;">
+									{% if form.instance.cliente %}
+										<option value=""></option>
+										{% for item in tipos_servicos %}
+											<option value="{{ item.0 }}" 
+												{% if form.instance.tipo_servico.id == item.0 %} selected {% endif %}>
+												{{item.1}}
+											</option>
+										{% endfor %}
+									{% endif %}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group mt-3 row">
+							<label>{{form.fields.responsavel.label}}</label>
+							<div class="col-12">
+								<select name='responsavel' class="form-control select2" id="responsavel" style="width: 100%;">
+									{% if form.instance.id %}
+										{% if form.instance.tipo_servico %}
+											<option value=""></option>
+											{% for item in responsaveis %}
+												<option value="{{ item.0 }}"
+													{% if form.instance.responsavel.slug == item.0 %} selected {% endif %}>
+													{{item.1}}
+												</option>
+											{% endfor %}
+										{% endif %}
+									{% endif %}
+									</select>
+								</div>
+							</div>
+						
+						<div class="form-group mt-3">
+							<label>{{form.fields.dt_prazo.label}}</label>
+							<input name='dt_prazo' type="text" class="form-control datepicker date-inputmask" 
+								id="dt_prazo" required value="{{form.instance.dt_prazo|date:'d/m/Y'}}"
+							>
+						</div>
+
+						<div class="form-group mt-3 row">
+							<label>{{form.fields.status.label}}</label>
+							<div class="col-12">
+								<select name='status' class="form-control select2" id="status" required style="width: 100%;">
+										{% for item in form.fields.status.choices %}
+											<option value="{{ item.0 }}" 
+												{% if form.instance.status == item.0 %} selected {% endif %}>
+												{{item.1}}
+											</option>
+										{% endfor %}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group mt-3">
+							<label>{{form.fields.observacao.label}}</label>
+							<input name='observacao' type="text" class="form-control" id="observacao" value="{{form.instance.observacao|default_if_none:""}}">
+						</div>
+					</div>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Page Content -->
+				<!-- ============================================================== -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+				<button type="submit" class="btn btn-primary">
+					Salvar
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$( function() {
+		$(".datepicker").datepicker({
+			language: 'pt-BR'
+		});
+
+		$("#tipo_servico, #cliente, #responsavel").select2({
+			placeholder: "Selecione um Cliente",
+   			allowClear: true,
+		});
+
+		$("#responsavel").select2({
+			placeholder: "Selecione um Responsável",
+   			allowClear: true,
+		});
+
+		$("#status").select2({
+			placeholder: "Selecione um Status",
+   			allowClear: true,
+		});
+
+		$('#cliente').on('select2:clear', function(e){
+			let select = $('#tipo_servico');
+			select.val(null).trigger("change");
+			select[0].innerHTML="";
+			select.select2({
+				placeholder: "Selecione um Cliente",
+				allowClear: true
+			});
+
+		})
+
+		$('#tipo_servico').on('select2:clear', function(e){
+			console.log('teste resp')
+			let select = $('#responsavel');
+			select.val(null).trigger("change");
+			select[0].innerHTML="";
+			select.select2({
+				placeholder: "Selecione um Tipo de Serviço",
+				allowClear: true
+			});
+
+		})
+
+		$(".processo-inputmask").inputmask("9999999-99.9999.9.99.9999")
+
+	});
+
+	function carregar_tp(cliente){
+		console.log('teste')
+		if(cliente.value){
+			$.ajax({
+				url: '{% url "listagem_tipo_servicos_cliente_select" %}'+'/'+cliente.value,
+				type: 'get',
+				success: function(data) {
+					let select = $('#tipo_servico');
+					select[0].innerHTML="";
+					data.forEach(function(item) {
+						option = new Option(item[1], item[0], false, false);
+						select.append(option).trigger("change");
+					});
+					select.val(null).trigger("change");
+				}
+			});
+		}
+	}
+
+	function carregar_rs(tipo_servico){
+		if(tipo_servico.value){
+			$.ajax({
+				url: '{% url "listagem_responsaveis_tipo_servicos_select" %}'+'/'+tipo_servico.value,
+				type: 'get',
+				success: function(data) {
+					let select = $('#responsavel');
+					select[0].innerHTML="";
+					data.forEach(function(item) {
+						option = new Option(item[1], item[0], false, false);
+						select.append(option).trigger("change");
+					});
+					select.val(null).trigger("change");
+				}
+			});
+		}
+	}
+</script>

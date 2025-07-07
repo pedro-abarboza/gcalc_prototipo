@@ -1,0 +1,46 @@
+{% load static %}
+<div class="modal-dialog modal-xl modal-dialog-centered">
+	<div id="modal-content-xl" class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title">{{title}}</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body py-0">
+			<div class="card">
+				<div class="card-body">
+					<div class="mb-3 mx-2">
+						{% block cad %}{% endblock %}
+					</div>
+
+					<div class="table-responsive">
+						<table id="listagem_modal" class="table table-striped table-bordered">
+							<thead>
+								{% block thead%}
+								{% endblock %}
+							</thead>
+							<tbody>
+								{% block tbody%}
+								{% endblock %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" 
+				data-bs-dismiss="modal" data-bs-toggle="modal" aria-label="Close">
+				Fechar
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	$("#listagem_modal").DataTable({
+		'language': CUSTOM_DATATABLE
+	});
+</script>
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->

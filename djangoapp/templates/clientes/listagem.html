@@ -1,0 +1,81 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block cad %}
+	{% if perms.clientes.add_clientes %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro()" title="Cadastrar novo Processo">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+{% block thead %}
+	<tr>
+		<th>Nome</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody %}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.nome }}</td>
+			<td class="py-1 align-middle justify-content-md-center">
+				{% if perms.clientes.change_clientes %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+						onclick="edicao('{{item.id}}')" title="Editar">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.servicos.view_tiposervico %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+						onclick="tipo_servico('{{item.id}}')" title="Tipos de Serviço">
+						<i class="mdi mdi-adjust" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.delecao_clientes %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+						onclick="delecao('{{item.id}}')" title="Deletar Cálculo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+    <!-- this page js -->
+	<script src="{% static 'assets/extra-libs/DataTables/datatables.min.js' %}"></script>
+	<script src="{% static 'assets/extra-libs/DataTables/custom.js' %}"></script>
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+	<script src="{% static 'assets/libs/jquery-ui-1.14.1/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'assets/libs/jquery-ui-1.14.1/locale.js' %}"></script>
+	<script>
+		function cadastro(){open("{% url 'cadastro_clientes' %}")};
+		function edicao(id){open("{% url 'edicao_clientes' %}"+"/"+id)};
+		function delecao(id){open("{% url 'delecao_clientes' %}"+"/"+id)};
+		function tipo_servico(id){open("{% url 'listagem_tipo_servicos_cliente' %}"+"/"+id)};
+		function cadastro_tipo_servico(id){open1("{% url 'cadastro_tipo_servicos_cliente' %}"+"/"+id)};
+		function edicao_tipo_servico(id){open1("{% url 'edicao_tipo_servicos_cliente' %}"+"/"+id)};
+		function delecao_tipo_servico(id){open1("{% url 'delecao_tipo_servicos_cliente' %}"+"/"+id)};
+		function salvar_cad_tipo_servico(cliente_id){
+			salvar_modal(
+				"{% url 'cadastro_tipo_servicos_cliente' %}",
+				"{% url 'listagem_tipo_servicos_cliente' %}"+"/"+cliente_id
+			)};
+		function salvar_edi_tipo_servico(cliente_id){
+			salvar_modal(
+				"{% url 'edicao_tipo_servicos_cliente' %}",
+				"{% url 'listagem_tipo_servicos_cliente' %}"+"/"+cliente_id
+			)};
+		function salvar_del_tipo_servico(cliente_id){
+			salvar_modal(
+				"{% url 'delecao_tipo_servicos_cliente' %}",
+				"{% url 'listagem_tipo_servicos_cliente' %}"+"/"+cliente_id
+			)};
+	</script>
+{% endblock %}

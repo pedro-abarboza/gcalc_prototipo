@@ -1,41 +1,64 @@
 {% extends "genericos/listagem_simples.html" %}
 {% load static %}
+
+{% block cad %}
+	{% if perms.processos.add_processos %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro()" title="Cadastrar novo Serviço">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+
 {% block thead %}
 	<tr>
-		<th>Tipo de Serviço</th>
 		<th>Cliente</th>
 		<th>Processo</th>
-		<th>Cálculo</th>
-		<th></th>
+		<th>Tipo de Serviço</th>
+		<th>Prazo</th>
+		<th>Responsável</th>
+		<th>Status</th>
+		<th>Ações</th>
 	</tr>
 {% endblock %}
 
 {% block tbody%}
 	{% for item in object_list %}
 		<tr>
+			<td class="py-1 align-middle" title="{{ item.cliente }}">{{ item.cliente }}</td>
+			<td class="py-1 align-middle" title="{{ item.processo }}">{{ item.processo }}</td>
 			<td class="py-1 align-middle">{{ item.tipo_servico }}</td>
-			<td class="py-1 align-middle" title="{{ item.cliente }}"></td>
-			<td class="py-1 align-middle" title="{{ item.processo }}"></td>
-			<td class="py-1 align-middle" title="{{ item.calculo }}"></td>
-			<td class="py-1 align-middle justify-content-md-center" style="display: flex;">
-				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
-					href="{% url 'listagem_andamentos' item.id %}"
-					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Andamentos">
-					<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
-				</a>
-				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
-					href="{% url 'listagem_calculos' item.id %}"
-					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Calculos">
-					<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
-				</a>
-				<form action="{% url 'delete_processos' item.id %}" method="post">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
-						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Processo">
+			<td class="py-1 align-middle" title="{{ item.dt_prazo }}">{{ item.dt_prazo|date:'d/m/Y' }}</td>
+			<td class="py-1 align-middle" title="{{ item.responsavel.nome_completo }}">{{ item.responsavel.nome_completo|default_if_none:'' }}</td>
+			<td class="py-1 align-middle" title="{{ item.status }}">{{ item.status|default_if_none:'' }}</td>
+			<td class="py-1 align-middle justify-content-md-center">
+				{% if perms.processos.change_servicos %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+						onclick="edicao('{{item.id}}')" title="Editar Serviço">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.delecao_servicos %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+						onclick="deletar('{{item.id}}')" title="Deletar Serviço">
 						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
-					</button>
-				</form>
+					</a>
+				{% endif %}
 			</td>
 		</th>
 	{% endfor %}
+{% endblock %}
+
+{% block js %}
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+    </script>
+	<script>
+		function cadastro(){open("{% url 'cadastro_servicos' %}")};
+		function edicao(id){open("{% url 'edicao_servicos' %}"+"/"+id)};
+		function deletar(id){open("{% url 'delecao_servicos' %}"+"/"+id)};
+
+	</script>
 {% endblock %}

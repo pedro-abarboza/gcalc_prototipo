@@ -3,7 +3,6 @@
 {% load functions %}
 
 {% block css %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/libs/select2/dist/css/select2.min.css' %}">
 	<link href="{% static '/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css' %}" rel="stylesheet" />
 {% endblock %}
 
@@ -117,6 +116,8 @@
 		$(document).ready(function() {
 			$('.select').select2({
 				placeholder: 'Selecione as Verbas desejadas.',
+				scrollAfterSelect: false,
+				closeOnSelect: false,
   				allowClear: true
 			});
 		});

@@ -57,7 +57,7 @@ class RelatorioMixin:
             col+=1
 
         # Adicionar cabeçalhos à primeira linha
-        for col_num, column_title in enumerate(colunas_tabela, start=1):
+        for col_num, column_title in enumerate(colunas_tabela, start=0):
             cell = sheet.cell(row=1, column=col_num+col)
             cell.value = column_title.descricao
 

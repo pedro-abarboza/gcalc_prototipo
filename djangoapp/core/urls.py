@@ -20,12 +20,18 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, re_path
 
+from django.contrib.auth.views import LoginView, LogoutView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', LoginView.as_view(template_name='acesso/usuarios/login.html', next_page = 'home'), name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 
     path('', include('apps.home.urls')),
+    path('acesso/', include('apps.acesso.urls')),
     path('calculos/', include('apps.calculos.urls')),
+    path('clientes/', include('apps.clientes.urls')),
     path('processos/', include('apps.processos.urls')),
     path('servicos/', include('apps.servicos.urls')),
 

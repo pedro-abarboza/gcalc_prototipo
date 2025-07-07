@@ -1,0 +1,58 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+{% block cad %}
+	<a type="button" class="btn btn-primary p-2"
+		onclick="cadastro()"
+		data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar novo Usuário">
+		<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+	</a>
+{% endblock %}
+{% block thead %}
+	<tr>
+		<th>Username</th>
+		<th>Nome</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody %}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.username }}</td>
+			<td class="py-1 align-middle">{{ item.nome_completo }}</td>
+			<td class="py-1 align-middle justify-content-md-center">
+				{% if perms.auth.add_user %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+						onclick="edicao('{{item.id}}')" title="Editar">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.auth.add_user %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+						onclick="perm_servicos('{{item.id}}')" title="Editar Serviços Permitidos">
+						<i class="mdi mdi-wrench" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.auth.delete_user %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+						onclick="deletar('{{item.id}}')" title="Deletar Processo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+
+		function cadastro(){open("{% url 'cadastro_usuarios' %}")};
+		function edicao(id){open("{% url 'edicao_usuarios' %}"+"/"+id)};
+		function deletar(id){open("{% url 'delecao_usuarios' %}"+"/"+id)};
+		function perm_servicos(id){open("{% url 'perm_servicos' %}"+"/"+id)};
+	</script>
+{% endblock %}

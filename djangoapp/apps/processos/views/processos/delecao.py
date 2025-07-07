@@ -9,14 +9,22 @@ from apps.processos.models import Processos
 
 
 class DelProcessos(DeleteView):
+    template_name='processos/deletar.html'
     model = Processos
     
     def get_success_url(self):
         return reverse('listagem_processos')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['card_title'] = 'Deleção de Processo'
+        context['object'] = self.get_object()
+        
+        return context
 
     def form_invalid(self, form):
         messages.error(self.request, "Erro na Deleção do Processo. {}".format(form.errors))
-        response = super().form_invalid(form)
+        return super().form_invalid(form)
         
     def form_valid(self, form):
         messages.success(self.request, "Processo Deletado com sucesso")

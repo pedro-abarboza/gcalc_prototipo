@@ -1,0 +1,58 @@
+{% extends "genericos/listagem_modal.html" %}
+{% load static %}
+{% block cad %}
+	{% if perms.processos.add_processos %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro_tipo_servico('{{cliente_id}}')" title="Cadastrar novo Tipo de Serviço">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+{% block thead %}
+	<tr>
+		<th>Tipo de Serviço</th>
+		<th>Valor</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody %}
+	{% for item in tiposervicos_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.descricao }}</td>
+			<td class="py-1 align-middle" title="{{ item.valor }}">R$ {{ item.valor|floatformat:2 }}</td>
+			<td class="py-1 align-middle justify-content-md-center" >
+				<a type="button" class="btn btn-outline-info px-1 py-0 m-1"
+					onclick="edicao_tipo_servico('{{item.id}}')" title="Editar">
+					<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+				</a>
+				<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+					onclick="delecao_tipo_servico('{{item.id}}')" title="Editar">
+					<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+				</a>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+    <script>
+		
+		$(function(){
+			$("#listagem").DataTable({
+				'language': CUSTOM_DATATABLE
+			});
+			$(".real-inputmask").inputmask({
+				prefix: "R$ ",
+				groupSeparator: ".",
+				radixPoint: ",",
+				alias: "numeric",
+				placeholder: "0",
+				autoGroup: !0,
+				digits: 2,
+				digitsOptional: !1,
+				clearMaskOnLostFocus: !1,
+			});
+		})
+    </script>
+{% endblock %}

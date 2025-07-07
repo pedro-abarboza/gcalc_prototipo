@@ -60,20 +60,28 @@ class AndamentosMixin:
         for link in links:
             response = requests.request("POST", link, headers=headers, data=payload)
             response = response.json()['hits']['hits']
-            for instancia in response:
+            for index, instancia in enumerate(response):
                 andamentos = instancia['_source']
                 grau = instancia['_source']['grau']+' - '+instancia['_source']['classe']['nome']
+                if index == 0:
+                    dta = datetime.strptime(instancia['_source']['dataAjuizamento'][:10], '%Y-%m-%d')
+                    if not processo.dt_ajuizamento or dta.date() < processo.dt_ajuizamento:
+                        processo.dt_ajuizamento = dta.date()
                 data = []
+                obj = []
                 for mov in andamentos['movimentos']:
-                    data.append(
-                        Andamentos(
-                            processo=processo,
-                            descricao=mov['nome'],
-                            dt_andamento=datetime.strptime(mov['dataHora'][:10], '%Y-%m-%d'),
-                            codigo=mov['codigo'],
-                            grau=grau
+                    item = [mov['nome'], datetime.strptime(mov['dataHora'][:10], '%Y-%m-%d'), mov['codigo']]
+                    if not item in obj:
+                        obj.append(item)
+                        data.append(
+                            Andamentos(
+                                processo=processo,
+                                descricao=item[0],
+                                dt_andamento=item[1],
+                                codigo=item[2],
+                                grau=grau
+                            )
                         )
-                    )
                 Andamentos.objects.bulk_create(data, batch_size=100)
         processo.dt_ult_verificacao = datetime.now()
         processo.save()

@@ -28,10 +28,10 @@ class Reclamantes(models.Model):
 class Processos(models.Model):
 
     n_processo = models.CharField("N.Processo", max_length=26)
-    reclamada = models.ForeignKey(Reclamadas, verbose_name="Reclamada", on_delete=models.PROTECT)
-    reclamante = models.ForeignKey(Reclamantes, verbose_name="Reclamante", on_delete=models.PROTECT)
+    reclamada = models.ForeignKey(Reclamadas, verbose_name="Reclamada", on_delete=models.PROTECT, null=True, blank=True)
+    reclamante = models.ForeignKey(Reclamantes, verbose_name="Reclamante", on_delete=models.PROTECT, null=True, blank=True)
     dt_ajuizamento = models.DateField(
-        "D.Ajuizamento", auto_now=False, auto_now_add=False
+        "D.Ajuizamento", auto_now=False, auto_now_add=False, null=True, blank=True
     )
     formato = models.CharField("Formato", max_length=50, null=True, blank=True)
     dt_ult_atualizacao = models.DateField(

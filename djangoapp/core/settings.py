@@ -26,10 +26,10 @@ DATA_DIR = BASE_DIR.parent / 'data'
 SECRET_KEY = 'django-insecure-@ipe57g9%%fl12^nzmr71cwr06m7sb_$j99k*g&bndg4du*9lo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.getenv('DEBUG', 0)))
+DEBUG = bool(int(os.getenv('DEBUG', 1)))
 
 ALLOWED_HOSTS = [
-    h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',')
+    h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',')
     if h.strip()
 ]
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'celery_progress',
 
+    'apps.acesso',
     'apps.calculos',
     'apps.clientes',
     'apps.home',
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'apps.home.middleware.MenuMiddleware',
+    'apps.home.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -95,12 +97,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'change-me'),
-        'NAME': os.getenv('POSTGRES_DB', 'change-me'),
-        'USER': os.getenv('POSTGRES_USER', 'change-me'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'change-me'),
-        'HOST': os.getenv('POSTGRES_HOST', 'change-me'),
-        'PORT': os.getenv('POSTGRES_PORT', 'change-me'),
+        'ENGINE': "django.db.backends.postgresql",
+        'NAME': os.getenv('POSTGRES_DB', 'gcalcprot'),
+        'USER': os.getenv('POSTGRES_USER', 'gcalc_master'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'pp2nt3ra'),
+        'HOST': os.getenv('POSTGRES_HOST', '127.0.0.1'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -123,6 +125,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Model User
+AUTH_USER_MODEL = 'acesso.CustomUser'
+
+
+# Login
+LOGIN_URL = "/login/"
+LOGOUT_URL = "/logout/"
+LOGIN_REDIRECT_URL = "/"  # -- Usada na tela de Login.
+APPEND_SLASH = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -136,6 +147,16 @@ USE_I18N = True
 USE_TZ = True
 
 USE_THOUSAND_SEPARATOR = True
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('pt-br', 'Português Brasileiro'),
+    # Adicione outras linguagens conforme necessário
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 
 # Static files (CSS, JavaScript, Images)
