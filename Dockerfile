@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
-
+COPY scripts/start.sh /start.sh
+RUN chmod +x /start.sh
 COPY . .
 
 EXPOSE 8000
+CMD ["/start.sh"] 
