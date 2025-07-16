@@ -125,6 +125,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = []
+if os.getenv('CSRF_TRUSTED_ORIGINS'):
+    CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
+else:
+    # Default origins se não houver definição na variável de ambiente
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:8050",
+        "http://127.0.0.1:8050"
+    ]
+
 #Model User
 AUTH_USER_MODEL = 'acesso.CustomUser'
 
@@ -163,7 +176,7 @@ LOCALE_PATHS = [
 
 STATIC_URL = '/static/'
 # /data/web/static
-STATIC_ROOT = BASE_DIR.parent / 'staticfiles'
+STATIC_ROOT = BASE_DIR.parent / 'gcalc_statics/'
 STATICFILES_DIRS = (os.path.join(DATA_DIR, "static"),)
 
 MEDIA_URL = '/media/'
