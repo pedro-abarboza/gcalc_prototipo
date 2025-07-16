@@ -1,5 +1,5 @@
 services:
-  django:
+  gcalc-django:
     container_name: gcalc
     build:
       context: .
@@ -17,7 +17,7 @@ services:
     expose: # Expose a porta para outros serviços no Docker Compose, não para o host
       - "8000"
 
-  nginx:
+  gcalc-nginx:
     container_name: nginx
     image: nginx:alpine # Usando uma imagem Nginx leve
     ports:
