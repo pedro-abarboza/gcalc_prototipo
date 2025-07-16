@@ -149,7 +149,6 @@ USE_TZ = True
 USE_THOUSAND_SEPARATOR = True
 
 LANGUAGES = [
-    ('en', 'English'),
     ('pt-br', 'Português Brasileiro'),
     # Adicione outras linguagens conforme necessário
 ]
@@ -164,7 +163,7 @@ LOCALE_PATHS = [
 
 STATIC_URL = '/static/'
 # /data/web/static
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR.parent / 'staticfiles'
 STATICFILES_DIRS = (os.path.join(DATA_DIR, "static"),)
 
 MEDIA_URL = '/media/'

@@ -5,9 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env
+      - .env_docker
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
     expose: # Expose a porta para outros serviços no Docker Compose, não para o host
       - "8000"
