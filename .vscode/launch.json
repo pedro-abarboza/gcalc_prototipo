@@ -13,7 +13,7 @@
             ],
             "django": true,
             "autoStartBrowser": false,
-            "program": "${workspaceFolder}/djangoapp/manage.py"
+            "program": "${workspaceFolder}/manage.py"
         },
         {
             "name": "Celery",

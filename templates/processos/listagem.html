@@ -1,0 +1,93 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+
+{% block cad %}
+	{% if perms.processos.add_processos %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro()" title="Cadastrar novo Processo">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+
+{% block thead %}
+	<tr>
+		<th>Nº do Processo</th>
+		<th>Reclamante</th>
+		<th>Reclamada</th>
+		<th>Dt. Ajuizamento</th>
+		<th>Ações</th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle col-3">{{ item.n_processo }}</td>
+			<td class="py-1 align-middle col-2" title="{{ item.reclamada }}">
+				<span class="d-inline-block text-truncate" style="max-width: 200px;">{{ item.reclamada|default_if_none:'' }}</span>
+			</td>
+			<td class="py-1 align-middle col-2" title="{{ item.reclamante }}">
+				<span class="d-inline-block text-truncate" style="max-width: 200px;">{{ item.reclamante|default_if_none:'' }}</span>
+			</td>
+			<td class="py-1 align-middle">
+				<input type="hidden" value='{{ item.dt_ajuizamento|date:"Ymd" }}'>
+				{{ item.dt_ajuizamento|date:"d/m/Y" }}
+			</td>
+			<td class="py-1 align-middle justify-content-md-center">
+				{% if perms.processos.change_processos %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+						onclick="edicao('{{item.id}}')" title="Editar">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.view_andamentos %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+						onclick="andamento('{{item.id}}')" title="Ir para Andamentos">
+						<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.calculos.view_calculos %}
+					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+						onclick="calculo('{{item.id}}')" title="Ir para Calculos">
+						<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.delecao_processos %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+						onclick="deletar('{{item.id}}')" title="Deletar Processo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+    <script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+
+		function cadastro(){open("{% url 'cadastro_processos' %}")};
+		function edicao(id){open("{% url 'edicao_processos' %}"+"/"+id)};
+		function andamento(id){open("{% url 'listagem_andamentos' %}"+"/"+id)};
+		function calculo(id){open("{% url 'listagem_calculos_processo' %}"+"/"+id)};
+		function deletar(id){open("{% url 'delecao_processos' %}"+"/"+id)};
+		function atualizar(id){
+			$("#Modal").modal('hide')
+			$("#modal-content").html('')
+			$.ajax({
+				url: "{% url 'atualizar_andamentos' %}"+"/"+id,
+				type:'get',
+				success: function(retorno){
+					if (retorno['status'] == "success") {
+						andamento(id);
+					}
+				}
+			})
+		};
+
+	</script>
+{% endblock %}

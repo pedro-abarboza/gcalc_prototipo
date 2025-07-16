@@ -1,0 +1,82 @@
+from django.views.generic import ListView
+
+from apps.calculos.models import Calculos
+from apps.processos.models import Processos
+# Create your views here.
+
+
+class ListCalculos(ListView):
+    template_name='calculos/listagem.html'
+    model = Calculos
+
+    def get_breadcrumbs(self):
+        return [
+            {
+                'title': 'Home',
+                'url': 'home',
+                'activate': None
+            },{
+                'title': 'Calculos',
+                'url': '',
+                'activate': None
+            },{
+                'title': 'Listagem',
+                'url': '',
+                'activate': 'true'
+            }
+        ]
+
+    def get_title(self):
+        return 'Todos os Calculos'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['breadcrumbs'] = self.get_breadcrumbs()
+        if 'processo_id' in self.kwargs:
+            context['processo'] = Processos.objects.get(id=self.kwargs['processo_id'])
+
+        context['title'] = self.get_title()
+        context['card_title'] = 'Listagem'
+        context['subtitle'] = 'Aqui você tem a lista de todos os calculos cadastrados.'
+        
+        return context
+
+
+class ListMeusCalculos(ListCalculos):
+
+    def get_title(self):
+        return 'Meus Calculos'
+
+    def get_queryset(self):
+        self.queryset = self.model.objects.filter(responsavel_id=self.request.user.id)
+        return super().get_queryset()
+    
+
+class ListCalculosProcesso(ListView):
+    template_name='calculos/listagem_pr.html'
+    model = Calculos
+
+    def get_title(self):
+        complemento = ''
+        if 'processo_id' in self.kwargs:
+            processo = Processos.objects.get(id=self.kwargs['processo_id'])
+            complemento = ' do Processo nº {}'.format(processo)
+        return 'Calculos' + complemento
+
+    def get_queryset(self):
+        if 'processo_id' in self.kwargs:
+            self.queryset = self.model.objects.filter(processo_id=self.kwargs['processo_id'])
+        return super().get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if 'processo_id' in self.kwargs:
+            context['processo'] = Processos.objects.get(id=self.kwargs['processo_id'])
+
+        context['title'] = self.get_title()
+        context['card_title'] = 'Listagem'
+        context['subtitle'] = 'Aqui você tem a lista de todos os calculos cadastrados.'
+        
+        return context
+

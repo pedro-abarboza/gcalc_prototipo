@@ -1,0 +1,51 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+
+{% block cad %}
+	{% if perms.processos.add_group %}
+		<a type="button" class="btn btn-primary p-2"
+			onclick="cadastro()" title="Cadastrar novo Grupo">
+			<i class="mdi mdi-file-outline" style="font-size: 15px;"></i> Cadastro
+		</a>
+	{% endif %}
+{% endblock %}
+
+{% block thead %}
+	<tr>
+		<th>Nome</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody %}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.name }}</td>
+			<td class="py-1 align-middle justify-content-md-center">
+				{% if perms.processos.change_group %}
+					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+						onclick="edicao('{{item.id}}')" title="Editar Grupo">
+						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+				{% if perms.processos.delecao_group %}
+					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+						onclick="deletar('{{item.id}}')" title="Deletar Grupo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</a>
+				{% endif %}
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
+
+{% block js %}
+	<script>
+		$("#listagem").DataTable({
+			'language': CUSTOM_DATATABLE
+		});
+		function cadastro(){open("{% url 'cadastro_grupos' %}")};
+		function edicao(id){open("{% url 'edicao_grupos' %}"+"/"+id)};
+		function deletar(id){open("{% url 'delecao_grupos' %}"+"/"+id)};
+	</script>
+{% endblock %}

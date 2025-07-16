@@ -1,0 +1,71 @@
+{% load static %}
+{% load functions %}
+<div class="modal-dialog modal-md modal-dialog-centered">
+	<div id="modal-content-md" class="modal-content">
+		<form id="form" class="form-horizontal wizard" action="{{ url_form }}" method="post">
+			{% csrf_token %}
+			<div class="modal-header">
+				{% if form.instance.id %}
+					<input type="hidden" name="pk" value="{{form.instance.id}}">
+				{% endif %}
+				<h5 class="modal-title">{{card_title}}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body py-0">
+				<!-- ============================================================== -->
+				<!-- Container fluid  -->
+				<!-- ============================================================== -->
+				<div class="container-fluid">
+					<!-- ============================================================== -->
+					<!-- Start Page Content -->
+					<!-- ============================================================== -->
+					<div class="card">
+						<div class="form-group mt-3">
+							<label>{{form.fields.name.label}}</label>
+							<input name="name" type="text" class="form-control" maxlength={{form.fields.name.max_length}}
+								id="name" value={{form.instance.name}} required={{form.fields.name.required}} 
+							>
+							<small>{{form.fields.name.help_text}}</small>
+						</div>
+
+						<div class="col-12 form-group mt-3" style="display: contents;">
+							<label>Permissões: </label>
+							<select class="select form-control" name="permissions" id="permissions" multiple>
+							{% for item in permissions %}
+								<option value={{ item.id }} {% if item.id in group_permissions %}selected{% endif %}>
+									{{ item.name|translate_permission }}
+								</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Page Content -->
+				<!-- ============================================================== -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+			<button type="submit" class="btn btn-primary">
+				Salvar
+			</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script>
+	$( function() {
+		$('.select').select2({
+			placeholder: 'Selecione as Permissões.',
+			scrollAfterSelect: false,
+			closeOnSelect: false,
+			allowClear: true
+		});
+	});
+</script>

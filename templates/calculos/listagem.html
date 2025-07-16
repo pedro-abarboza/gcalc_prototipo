@@ -1,0 +1,51 @@
+{% extends "genericos/listagem_simples.html" %}
+{% load static %}
+
+{% block cad %}
+
+{% endblock %}
+
+{% block thead %}
+	<tr>
+		<th>Id.</th>
+		<th>Responsável</th>
+		<th>Nº do Processo</th>
+		<th>Valor Calculado</th>
+		<th>Valor Corrigido</th>
+		<th>Juros</th>
+		<th>Total</th>
+		<th>Arquivo</th>
+		<th></th>
+	</tr>
+{% endblock %}
+
+{% block tbody%}
+	{% for item in object_list %}
+		<tr>
+			<td class="py-1 align-middle">{{ item.id }}</td>
+			<td class="py-1 align-middle">{{ item.responsavel.nome_completo }}</td>
+			<td class="py-1 align-middle" title="{{ item.processo }}">
+				<span class="text-truncate tt-table">{{ item.processo }}</span>
+			</td>
+			<td class="py-1 align-middle">{{ item.total_calculado|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_corrigido|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total_juros|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle">{{ item.total|default_if_none:""|floatformat:2 }}</td>
+			<td class="py-1 align-middle text-truncate" title="{{ item.n_arquivo }}" style="max-width: 120px;">{{ item.n_arquivo }}<span></td>
+			<td class="py-1 align-middle" class="justify-content-md-center" style="display: flex;">
+				<a type="button" class="btn btn-outline-info px-1 py-0 mx-1"
+					href="{% url 'listagem_verbas' item.id %}"
+					data-bs-toggle="tooltip" data-bs-placement="top" title="Ir para Verbas">
+					<i class="mdi mdi-arrange-bring-forward" style="font-size: 15px;"></i>
+				</a>
+				<form action="{% url 'delecao_calculos' item.id %}" method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-outline-danger px-1 py-0 mx-1"
+						data-bs-toggle="tooltip" data-bs-placement="top" title="Deletar Calculo">
+						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+					</button>
+				</form>
+			</td>
+		</th>
+	{% endfor %}
+{% endblock %}
