@@ -27,7 +27,7 @@ services:
       - static_data:/vol/web/static:ro # Monta o volume de estáticos (somente leitura)
       - media_data:/vol/web/media:ro   # Monta o volume de mídia (somente leitura)
     depends_on:
-      - django # Nginx depende do serviço 'web'
+      - gcalc-django # Nginx depende do serviço 'web'
     # healthcheck: # Opcional: Healthcheck para Nginx
     #   test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
     #   interval: 30s
