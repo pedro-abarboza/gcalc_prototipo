@@ -1,6 +1,6 @@
 services:
   gcalc-django:
-    container_name: gcalc
+    container_name: gcalc-django
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,7 +18,7 @@ services:
       - "8000"
 
   gcalc-nginx:
-    container_name: nginx
+    container_name: gcalc-nginx
     image: nginx:alpine # Usando uma imagem Nginx leve
     ports:
       - "80:80" # Mapeia a porta 80 do host para a porta 80 do Nginx
