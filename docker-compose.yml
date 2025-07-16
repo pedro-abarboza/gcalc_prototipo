@@ -6,34 +6,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    volumes:
-      - static_data:/vol/web/static # Monta o volume para arquivos estáticos
-      - media_data:/vol/web/media   # Monta o volume para arquivos de mídia
-      # - .:/code # Se você quiser que o código seja montado em vez de copiado
     command: >
-      sh -c "python manage.py collectstatic --noinput &&
-             python manage.py migrate &&
+      sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     expose: # Expose a porta para outros serviços no Docker Compose, não para o host
       - "8000"
-
-  gcalc-nginx:
-    container_name: gcalc-nginx
-    image: nginx:alpine # Usando uma imagem Nginx leve
-    ports:
-      - "80:80" # Mapeia a porta 80 do host para a porta 80 do Nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro # Monta o arquivo de configuração do Nginx
-      - static_data:/vol/web/static:ro # Monta o volume de estáticos (somente leitura)
-      - media_data:/vol/web/media:ro   # Monta o volume de mídia (somente leitura)
-    depends_on:
-      - gcalc-django # Nginx depende do serviço 'web'
-    # healthcheck: # Opcional: Healthcheck para Nginx
-    #   test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
-
-volumes:
-  static_data: # Define o volume nomeado para arquivos estáticos
-  media_data:  # Define o volume nomeado para arquivos de mídia
