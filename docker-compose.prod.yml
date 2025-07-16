@@ -1,0 +1,13 @@
+services:
+  web:
+    container_name: django
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    env_file:
+      - .env_docker
+    ports:
+      - "8002:8002"
+    command: python manage.py runserver 0.0.0.0:8002
