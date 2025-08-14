@@ -16,9 +16,18 @@ class CustomUser(AbstractUser):
         super().save(*args, **kwargs)
         
 
+def usuario_suporte(sender, **kwargs):
+    "Retorna/Cria um usuario para suporte."
+    user, create = CustomUser.objects.get_or_create(username='suporte', defaults={'first_name':'Suporte', 'last_name':'Gcalc'})
+    if create:
+        user.set_password('Qwertasdf') # Hash the password
+        user.save()
+    return user
+
 def usuario_deletado(sender, **kwargs):
     "Retorna/Cria um usuario para substituir usuarios deletados."
     user, create = CustomUser.objects.get_or_create(username='substituto', defaults={'first_name':'Usuário', 'last_name':'Deletado'})
     return user
 
+post_migrate.connect(usuario_suporte)
 post_migrate.connect(usuario_deletado)
