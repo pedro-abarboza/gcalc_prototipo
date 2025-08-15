@@ -8,10 +8,10 @@
         <div class="container-fluid">
             <div class="row" style="justify-content: center;">
                 <!-- Column -->
-                {% for item in request.menu %}
+                {% for item in menu %}
                     {% if item.permission %}
                         <div class="col-md-6 col-lg-2 col-xlg-3">
-                            <a class="card card-hover" href="{{item.url_home}}">
+                            <a class="card card-hover" href="{{item.url}}">
                                 <div class="box text-center" style="background-color:{{item.color}}">
                                     <h1 class="font-light text-white">
                                         <i class="{{item.icon}}"></i>

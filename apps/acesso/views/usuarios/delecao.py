@@ -1,11 +1,13 @@
-from django.contrib.auth.models import User
+
 from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import DeleteView
 
+from apps.acesso.models import CustomUser
+
 
 class DelUsuarios(DeleteView):
-    model = User
+    model = CustomUser
     template_name='acesso/usuarios/deletar.html'
     
     def get_success_url(self):
