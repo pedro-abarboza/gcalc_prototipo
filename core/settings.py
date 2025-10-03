@@ -178,9 +178,9 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT = 'public'
 STATIC_URL = '/public/'
-STATICFILES_DIRS = (os.path.join(PROJECT_EXTERNAL, 'gcalc_statics/public/'),)
+STATIC_ROOT = '/public/'
+STATICFILES_DIRS = (BASE_DIR.parent / 'gcalc_statics/public/',)
 
 MEDIA_URL = '/media/'
 # /data/web/media
