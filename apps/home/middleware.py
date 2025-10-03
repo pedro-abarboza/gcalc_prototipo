@@ -78,7 +78,7 @@ class MenuMiddleware(MiddlewareMixin):
                 },
                 {
                     'title': 'Serviços',
-                    'permission': request.user.has_perm('servicos.view_servicos') or request.user.has_perm('servicos.view_meusservicos'),
+                    'permission': request.user.has_perm('servicos.view_servicos') or request.user.has_perm('servicos.view_meus_servicos'),
                     'color': '#2255a4',
                     'icon': 'mdi mdi-wrench',
                     'url': '',
@@ -92,7 +92,7 @@ class MenuMiddleware(MiddlewareMixin):
                         },
                         {
                             'title': 'Meus Serviços',
-                            'permission': request.user.has_perm('servicos.view_meusservicos'),
+                            'permission': request.user.has_perm('servicos.view_meus_servicos'),
                             'icon': 'mdi mdi-view-list',
                             'url': reverse('listagem_meus_servicos'),
                         }
@@ -119,6 +119,14 @@ class MenuMiddleware(MiddlewareMixin):
                             'url': reverse('listagem_grupos'),
                         },
                     ]
+                },
+                {
+                    'title': 'Sistema',
+                    'permission': request.user.has_perm('auth.view_user') or request.user.has_perm('auth.view_group'),
+                    'color': '#da542e',
+                    'icon': 'mdi mdi-account-card-details',
+                    'url': reverse('sistema'),
+                    'url_home': reverse('sistema'),
                 },
             ]
         )

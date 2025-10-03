@@ -43,7 +43,8 @@ class CadServicos(CreateView):
             data['dt_cadastro'] = datetime.now()
             data['cliente'] = Clientes.objects.get(id=data['cliente'])
             data['tipo_servico'] = data['cliente'].tiposervicos_set.get(id=data['tipo_servico'])
-            data['responsavel'] = CustomUser.objects.get(slug=data['responsavel'])
+            if 'responsavel' in data and data['responsavel']:
+                data['responsavel'] = CustomUser.objects.get(slug=data['responsavel'])
             data['status'] = 'Pendente'
             kwargs.update({'data': data})
 
@@ -57,6 +58,12 @@ class CadServicos(CreateView):
         messages.success(self.request, "Serviço salvo com sucesso")
         return super().form_valid(form)
 
+
+class CadMeusServicos(CadServicos):
+
+    def get_success_url(self):
+        return reverse('listagem_meus_servicos')
+    
 
 class SelectTipoServicos(View):
 

@@ -20,24 +20,31 @@
 		<tr>
 			<td class="py-1 align-middle">{{ item.nome }}</td>
 			<td class="py-1 align-middle justify-content-md-center">
-				{% if perms.clientes.change_clientes %}
-					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
-						onclick="edicao('{{item.id}}')" title="Editar">
-						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.servicos.view_tiposervico %}
-					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
-						onclick="tipo_servico('{{item.id}}')" title="Tipos de Serviço">
-						<i class="mdi mdi-adjust" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.processos.delecao_clientes %}
-					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
-						onclick="delecao('{{item.id}}')" title="Deletar Cálculo">
-						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
+				<div class="dropdown">
+					<button class="btn btn-outline-info btn-sm btn-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-ellipsis-h"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-btn">
+						{% if perms.clientes.change_clientes %}
+							<li><a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+								onclick="edicao('{{item.id}}')" title="Editar">
+								<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+							</a></li>
+						{% endif %}
+						{% if perms.servicos.view_tiposervico %}
+							<li><a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+								onclick="tipo_servico('{{item.id}}')" title="Tipos de Serviço">
+								<i class="mdi mdi-adjust" style="font-size: 15px;"></i>
+							</a></li>
+						{% endif %}
+						{% if perms.processos.delecao_clientes %}
+							<li><a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+								onclick="delecao('{{item.id}}')" title="Deletar Cálculo">
+								<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+							</a></li>
+						{% endif %}
+					</ul>
+				</div>
 			</td>
 		</th>
 	{% endfor %}

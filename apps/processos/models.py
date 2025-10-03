@@ -27,7 +27,7 @@ class Reclamantes(models.Model):
     
 class Processos(models.Model):
 
-    n_processo = models.CharField("N.Processo", max_length=26)
+    n_processo = models.CharField("N.Processo", max_length=26, unique=True)
     reclamada = models.ForeignKey(Reclamadas, verbose_name="Reclamada", on_delete=models.PROTECT, null=True, blank=True)
     reclamante = models.ForeignKey(Reclamantes, verbose_name="Reclamante", on_delete=models.PROTECT, null=True, blank=True)
     dt_ajuizamento = models.DateField(

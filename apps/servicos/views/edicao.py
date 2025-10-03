@@ -59,7 +59,7 @@ class EdiServicos(UpdateView):
             data['processo'], create = Processos.objects.get_or_create(n_processo=data['processo'])
             data['cliente'] = Clientes.objects.get(id=data['cliente'])
             data['tipo_servico'] = data['cliente'].tiposervicos_set.get(id=data['tipo_servico'])
-            data['responsavel'] = CustomUser.objects.get(slug=data['responsavel'])
+            data['responsavel'] = CustomUser.objects.get(slug=data['responsavel']) if data['responsavel'] else None
             data['dt_cadastro'] = self.object.dt_cadastro
             kwargs.update({'data': data})
 
@@ -72,5 +72,11 @@ class EdiServicos(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Serviço salvo com sucesso")
         return super().form_valid(form)
+
+
+class EdiMeusServicos(EdiServicos):
+    
+    def get_success_url(self):
+        return reverse('listagem_meus_servicos')
     
     

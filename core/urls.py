@@ -34,6 +34,7 @@ urlpatterns = [
     path('clientes/', include('apps.clientes.urls')),
     path('processos/', include('apps.processos.urls')),
     path('servicos/', include('apps.servicos.urls')),
+    path('sistema', include('apps.sistema.urls')),
 
     #  Libs
     re_path(r"^celery-progress/", include("celery_progress.urls")),

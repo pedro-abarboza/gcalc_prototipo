@@ -1,0 +1,54 @@
+{% extends "base/index.html" %}
+{% load static %}
+
+{% block container%}
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Planos de Serviços</h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Defina aqui qual conjunto de soluções sua empresa precisa.
+                    </p>
+                    <div class="row">
+                        <div class="card col-5 mx-2">
+                            <div class="card-body">
+                                <h4 class="card-title">Padrão</h4>
+                                <p>
+                                    Conjuntos de módulos base do sistema G-Calc, sendo requisito mínimo para seu funcionamento mais simples.<br>
+                                    Consiste na composição dos seguintes Módulos:
+                                </p>
+                                <ul>
+                                    <li>Acesso</li>
+                                    <li>Processos</li>
+                                    <li>Clientes</li>
+                                    <li>Serviços</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card col-5 mx-2">
+                            <div class="card-body">
+                                <h4 class="card-title">Cálculos</h4>
+                                <p>
+                                    Soluções que permitem a importação de cálculos feitos no PJE-Calc, vinculando o cálculo aos registros do processo, facilitando a geração de relatórios.<br>
+                                    Com esse plano teremos mais facilidades como:
+                                </p>
+                                <ul>
+                                    <li>Gestão de Cálculos</li>
+                                    <li>Importação de Cálculos gerados no PJE-Calc</li>
+                                    <li>Relatórios de valores consolidados</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- ============================================================== -->
+	<!-- End Container fluid  -->
+	<!-- ============================================================== -->
+{% endblock %}

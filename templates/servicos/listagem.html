@@ -32,18 +32,25 @@
 			<td class="py-1 align-middle" title="{{ item.responsavel.nome_completo }}">{{ item.responsavel.nome_completo|default_if_none:'' }}</td>
 			<td class="py-1 align-middle" title="{{ item.status }}">{{ item.status|default_if_none:'' }}</td>
 			<td class="py-1 align-middle justify-content-md-center">
-				{% if perms.processos.change_servicos %}
-					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
-						onclick="edicao('{{item.id}}')" title="Editar Serviço">
-						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.processos.delecao_servicos %}
-					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
-						onclick="deletar('{{item.id}}')" title="Deletar Serviço">
-						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
+				<div class="dropdown">
+					<button class="btn btn-outline-info btn-sm btn-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-ellipsis-h"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-btn">
+						{% if perms_change %}
+							<li><a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+								onclick="edicao('{{item.id}}')" title="Editar Serviço">
+								<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+							</a></li>
+						{% endif %}
+						{% if perms_delete %}
+							<li><a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+								onclick="deletar('{{item.id}}')" title="Deletar Serviço">
+								<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+							</a></li>
+						{% endif %}
+					</ul>
+				</div>
 			</td>
 		</th>
 	{% endfor %}
@@ -56,8 +63,8 @@
 		});
     </script>
 	<script>
-		function cadastro(){open("{% url 'cadastro_servicos' %}")};
-		function edicao(id){open("{% url 'edicao_servicos' %}"+"/"+id)};
+		function cadastro(){open("{{ url_cad }}")};
+		function edicao(id){open("{{ url_edit }}"+"/"+id)};
 		function deletar(id){open("{% url 'delecao_servicos' %}"+"/"+id)};
 
 	</script>

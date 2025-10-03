@@ -35,30 +35,38 @@
 				{{ item.dt_ajuizamento|date:"d/m/Y" }}
 			</td>
 			<td class="py-1 align-middle justify-content-md-center">
-				{% if perms.processos.change_processos %}
-					<a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
-						onclick="edicao('{{item.id}}')" title="Editar">
-						<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.processos.view_andamentos %}
-					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
-						onclick="andamento('{{item.id}}')" title="Ir para Andamentos">
-						<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.calculos.view_calculos %}
-					<a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
-						onclick="calculo('{{item.id}}')" title="Ir para Calculos">
-						<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
-				{% if perms.processos.delecao_processos %}
-					<a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
-						onclick="deletar('{{item.id}}')" title="Deletar Processo">
-						<i class="mdi mdi-delete" style="font-size: 15px;"></i>
-					</a>
-				{% endif %}
+				<div class="dropdown">
+					<button class="btn btn-outline-info btn-sm btn-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-ellipsis-h"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-btn">
+						
+						{% if perms.processos.change_processos %}
+							<li><a type="button" class="btn btn-outline-primary px-1 py-0 m-1"
+								onclick="edicao('{{item.id}}')" title="Editar">
+								<i class="mdi mdi-lead-pencil" style="font-size: 15px;"></i>
+							</li></a>
+						{% endif %}
+						{% if perms.processos.view_andamentos %}
+							<li><a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+								onclick="andamento('{{item.id}}')" title="Ir para Andamentos">
+								<i class="mdi mdi-format-list-bulleted-type" style="font-size: 15px;"></i>
+							</li></a>
+						{% endif %}
+						{% if perms.calculos.view_calculos %}
+							<li><a type="button" class="btn btn-outline-secondary px-1 py-0 m-1"
+								onclick="calculo('{{item.id}}')" title="Ir para Calculos">
+								<i class="mdi mdi-calculator" style="font-size: 15px;"></i>
+							</li></a>
+						{% endif %}
+						{% if perms.processos.delecao_processos %}
+							<li><a type="button" class="btn btn-outline-danger px-1 py-0 m-1"
+								onclick="deletar('{{item.id}}')" title="Deletar Processo">
+								<i class="mdi mdi-delete" style="font-size: 15px;"></i>
+							</li></a>
+						{% endif %}
+					</ul>
+				</div>
 			</td>
 		</th>
 	{% endfor %}
