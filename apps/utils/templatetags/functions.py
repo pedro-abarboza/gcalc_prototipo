@@ -1,5 +1,10 @@
+import os
 from django import template
+from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.utils.translation import gettext as _
+
+from core.settings import MEDIA_ROOT
 
 register = template.Library()
 

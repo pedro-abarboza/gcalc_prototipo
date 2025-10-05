@@ -36,43 +36,77 @@
 	</head>
 
   <body>
-    <div class="main-wrapper">
-      <!-- ============================================================== -->
-      <!-- Preloader - style you can find in spinners.css -->
-      <!-- ============================================================== -->
-      <div class="preloader">
-        <div class="lds-ripple">
-          <div class="lds-pos"></div>
-          <div class="lds-pos"></div>
-        </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Preloader - style you can find in spinners.css -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Login box.scss -->
-      <!-- ============================================================== -->
-      <div
-        class="
-          auth-wrapper
-          d-flex
-          no-block
-          justify-content-center
-          align-items-center
-          bg-dark
-        "
-      >
-        <div class="auth-box bg-dark border-top border-secondary">
-          <div class="text-center pt-3 pb-3">
-              <span class="db">
-                {% include 'base/logo.html' %}
+    <style>
+      html {
+        height:100%;
+      }
+
+      body {
+        margin:0;
+      }
+
+      .bg {
+        animation:slide 3s ease-in-out infinite alternate;
+        background-image: linear-gradient(-60deg, rgb(51, 122, 204) 50%, #1f262d 50%);
+        bottom:0;
+        left:-50%;
+        opacity:.5;
+        position:fixed;
+        right:-50%;
+        top:0;
+        z-index:-1;
+      }
+
+      .bg2 {
+        animation-direction:alternate-reverse;
+        animation-duration:4s;
+      }
+
+      .bg3 {
+        animation-duration:5s;
+      }
+
+      .content {
+        background-color:rgba(32, 32, 32, 0.8);
+        border-radius:.25em;
+        box-shadow:0 0 .25em rgba(0,0,0,.25);
+        box-sizing:border-box;
+        left:50%;
+        padding:10vmin;
+        position:fixed;
+        text-align:center;
+        top:50%;
+        transform:translate(-50%, -50%);
+      }
+
+      h1 {
+        font-family:monospace;
+      }
+
+      @keyframes slide {
+        0% {
+          transform:translateX(-25%);
+        }
+        100% {
+          transform:translateX(25%);
+        }
+      }
+    </style>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <div class="content">
+      <div class="auth-box border-top border-secondary">
+          <div class="text-center pt-3" style="display: grid;">
+              <span class="db col-12">
+                {% include 'base/logo_login.html' %}
               </span>
             </div>
           <div id="loginform">
             
             <!-- Form -->
             <form
-              class="form-horizontal mt-3"
+              class="form-horizontal my-3"
               id="loginform" method="post">
               {% csrf_token %}
               <div class="row pb-4">
@@ -121,13 +155,13 @@
                 <div class="col-12">
                   <div class="form-group">
                     <div class="pt-3">
-                      <button
+                      <!--<button
                         class="btn btn-info"
                         id="to-recover"
                         type="button"
                       >
                         <i class="mdi mdi-lock fs-4 me-1"></i> Lost password?
-                      </button>
+                      </button>-->
                       <button
                         class="btn btn-success float-end text-white"
                         type="submit"
@@ -140,16 +174,14 @@
               </div>
             </form>
           </div>
-          <div id="recoverform" style="display: none">
+          <!--<div id="recoverform" style="display: none">
             <div class="text-center">
               <span class="text-white"
                 >Digite seu endereço de e-mail abaixo e lhe enviaremos instruções sobre como recuperar uma senha.</span
               >
             </div>
             <div class="row mt-3">
-              <!-- Form -->
               <form class="col-12" action="index.html">
-                <!-- email -->
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span
@@ -166,7 +198,6 @@
                     aria-describedby="basic-addon1"
                   />
                 </div>
-                <!-- pwd -->
                 <div class="row mt-3 pt-3 border-top border-secondary">
                   <div class="col-12 form-group">
                     <a
@@ -185,26 +216,11 @@
                     </button>
                   </div>
                 </div>
-              </form>
+              </form>-
             </div>
-          </div>
+          </div>-->
         </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Login box.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Page wrapper scss in scafholding.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Page wrapper scss in scafholding.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Right Sidebar -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Right Sidebar -->
-      <!-- ============================================================== -->
+
     </div>
     <!-- ============================================================== -->
     <!-- All Required js -->

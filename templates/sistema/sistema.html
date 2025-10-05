@@ -47,6 +47,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Dados da Empresa</h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Defina aqui qual conjunto de soluções sua empresa precisa.
+                    </p>
+                    <div class="row">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for campo in form %}
+                                <div class="form-group mt-3">
+                                    <label>{{campo.label}}</label><br>
+                                    {{campo}}
+                                </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     <!-- ============================================================== -->
 	<!-- End Container fluid  -->

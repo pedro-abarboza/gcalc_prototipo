@@ -22,6 +22,8 @@ from django.urls import path, re_path
 
 from django.contrib.auth.views import LoginView, LogoutView
 
+from apps.sistema.views import servir_imagem_logo
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +37,9 @@ urlpatterns = [
     path('processos/', include('apps.processos.urls')),
     path('servicos/', include('apps.servicos.urls')),
     path('sistema', include('apps.sistema.urls')),
+
+    path('imagem/', servir_imagem_logo, name='servir_imagem_logo'),
+    path('imagem/<str:nome_arquivo>/', servir_imagem_logo, name='servir_imagem_logo'),
 
     #  Libs
     re_path(r"^celery-progress/", include("celery_progress.urls")),

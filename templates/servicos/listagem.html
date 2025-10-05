@@ -31,7 +31,7 @@
 			<td class="py-1 align-middle" title="{{ item.dt_prazo }}">{{ item.dt_prazo|date:'d/m/Y' }}</td>
 			<td class="py-1 align-middle" title="{{ item.responsavel.nome_completo }}">{{ item.responsavel.nome_completo|default_if_none:'' }}</td>
 			<td class="py-1 align-middle" title="{{ item.status }}">{{ item.status|default_if_none:'' }}</td>
-			<td class="py-1 align-middle justify-content-md-center">
+			<td class="py-1 align-middle justify-content-md-center col-1">
 				<div class="dropdown">
 					<button class="btn btn-outline-info btn-sm btn-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="fas fa-ellipsis-h"></i>

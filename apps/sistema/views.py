@@ -1,10 +1,17 @@
+import os
+from django.conf import settings
+from django.http import FileResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import UpdateView
+
+from apps.sistema.models import Parametros
 
 
-class SistemaView(TemplateView):
+class SistemaView(UpdateView):
+    model = Parametros
     template_name='sistema/sistema.html'
+    fields = '__all__'
 
     def get_breadcrumbs(self):
         return [
@@ -15,6 +22,20 @@ class SistemaView(TemplateView):
             },
         ]
     
+    def get_object(self, queryset = None):
+        try:
+            param = Parametros.objects.latest()
+        except:
+            param = Parametros.objects.get_or_create()[0]
+        return param
+    
+    def get_form_class(self):
+        form_class = super().get_form_class()
+        for item in form_class.base_fields:
+            form_class.base_fields[item].widget.attrs['class'] = 'form-control'
+
+        return form_class
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = self.get_breadcrumbs()
@@ -23,3 +44,10 @@ class SistemaView(TemplateView):
         context['subtitle'] = 'Bem vindo ao G-Calc.'
         
         return context
+
+def servir_imagem_logo(request, nome_arquivo):
+    caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo', nome_arquivo)
+    if not os.path.exists(caminho_arquivo):
+        caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo-default', nome_arquivo)
+    with open(caminho_arquivo, "rb") as f:
+        return HttpResponse(f.read())
