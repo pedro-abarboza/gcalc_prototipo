@@ -1,5 +1,6 @@
 import os
 from django.conf import settings
+from django.contrib import messages
 from django.http import FileResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render
@@ -63,8 +64,13 @@ class SistemaView(UpdateView):
                 param.logo_text.delete()
             mime = form.instance.logo_text.name.split('.')[-1]
             form.instance.logo_text.name = 'logo-text.'+mime
-            
+        messages.success(self.request, "Parametros salvo com sucesso")
+
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Erro no salvamento dos Parametros. {}".format(form.errors))
+        return super().form_invalid(form)
 
 def servir_imagem_logo(request, nome_arquivo):
     caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo', nome_arquivo)

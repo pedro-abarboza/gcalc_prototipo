@@ -19,6 +19,7 @@
 					<!-- Start Page Content -->
 					<!-- ============================================================== -->
 					<div class="card">
+
 						<div class="form-group mt-3 row">
 							<label>{{form.fields.cliente.label}}</label>
 							<div class="col-12">
@@ -31,13 +32,6 @@
 									{% endfor %}
 								</select>
 							</div>
-						</div>
-
-						<div class="form-group mt-3">
-							<label>{{form.fields.processo.label}}</label>
-							<input name='processo' type="text" class="form-control processo-inputmask" 
-								id="processo" required value="{{form.instance.processo}}"
-							>
 						</div>
 
 						<div class="form-group mt-3 row">
@@ -73,9 +67,16 @@
 											{% endfor %}
 										{% endif %}
 									{% endif %}
-									</select>
-								</div>
+								</select>
 							</div>
+						</div>
+
+						<div class="form-group mt-3">
+							<label>{{form.fields.processo.label}}</label>
+							<input name='processo' type="text" class="form-control processo-inputmask" 
+								id="processo" required value="{{form.instance.processo}}"
+							>
+						</div>
 						
 						<div class="form-group mt-3">
 							<label>{{form.fields.dt_prazo.label}}</label>
@@ -88,12 +89,12 @@
 							<label>{{form.fields.status.label}}</label>
 							<div class="col-12">
 								<select name='status' class="form-control select2" id="status" required style="width: 100%;">
-										{% for item in form.fields.status.choices %}
-											<option value="{{ item.0 }}" 
-												{% if form.instance.status == item.0 %} selected {% endif %}>
-												{{item.1}}
-											</option>
-										{% endfor %}
+									{% for item in form.fields.status.choices %}
+										<option value="{{ item.0 }}" 
+											{% if form.instance.status == item.0 %} selected {% endif %}>
+											{{item.1}}
+										</option>
+									{% endfor %}
 								</select>
 							</div>
 						</div>
@@ -123,87 +124,7 @@
 </div>
 
 <script>
-	$( function() {
-		$(".datepicker").datepicker({
-			language: 'pt-BR'
-		});
-
-		$("#tipo_servico, #cliente, #responsavel").select2({
-			placeholder: "Selecione um Cliente",
-   			allowClear: true,
-		});
-
-		$("#responsavel").select2({
-			placeholder: "Selecione um Responsável",
-   			allowClear: true,
-		});
-
-		$("#status").select2({
-			placeholder: "Selecione um Status",
-   			allowClear: true,
-		});
-
-		$('#cliente').on('select2:clear', function(e){
-			let select = $('#tipo_servico');
-			select.val(null).trigger("change");
-			select[0].innerHTML="";
-			select.select2({
-				placeholder: "Selecione um Cliente",
-				allowClear: true
-			});
-
-		})
-
-		$('#tipo_servico').on('select2:clear', function(e){
-			console.log('teste resp')
-			let select = $('#responsavel');
-			select.val(null).trigger("change");
-			select[0].innerHTML="";
-			select.select2({
-				placeholder: "Selecione um Tipo de Serviço",
-				allowClear: true
-			});
-
-		})
-
-		$(".processo-inputmask").inputmask("9999999-99.9999.9.99.9999")
-
-	});
-
-	function carregar_tp(cliente){
-		console.log('teste')
-		if(cliente.value){
-			$.ajax({
-				url: '{% url "listagem_tipo_servicos_cliente_select" %}'+'/'+cliente.value,
-				type: 'get',
-				success: function(data) {
-					let select = $('#tipo_servico');
-					select[0].innerHTML="";
-					data.forEach(function(item) {
-						option = new Option(item[1], item[0], false, false);
-						select.append(option).trigger("change");
-					});
-					select.val(null).trigger("change");
-				}
-			});
-		}
-	}
-
-	function carregar_rs(tipo_servico){
-		if(tipo_servico.value){
-			$.ajax({
-				url: '{% url "listagem_responsaveis_tipo_servicos_select" %}'+'/'+tipo_servico.value,
-				type: 'get',
-				success: function(data) {
-					let select = $('#responsavel');
-					select[0].innerHTML="";
-					data.forEach(function(item) {
-						option = new Option(item[1], item[0], false, false);
-						select.append(option).trigger("change");
-					});
-					select.val(null).trigger("change");
-				}
-			});
-		}
-	}
+	var URL_TP = '{% url "listagem_tipo_servicos_cliente_select" %}';
+	var URL_RS = '{% url "listagem_responsaveis_tipo_servicos_select" %}';
 </script>
+<script src="{% static 'admin/js/servicos/form.js' %}"></script>

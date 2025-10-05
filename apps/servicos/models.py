@@ -36,6 +36,10 @@ class Servicos(models.Model):
     dt_prazo = models.DateField(
         "Prazo", auto_now=False, auto_now_add=False,
         null=False, blank=False)
+    
+    dt_conclusao = models.DateField(
+        "conclusao", auto_now=False, auto_now_add=False,
+        null=True, blank=True)
 
     processo = models.ForeignKey(
         Processos,
@@ -80,3 +84,51 @@ class MeusServicos(Servicos):
     class Meta:
         verbose_name = "Meu Serviço"
         verbose_name_plural = "Meus Serviços"
+
+
+class Faturas(models.Model):
+
+    CHOICES_FATURA = (
+        ('Atrasado', 'Atrasado'),
+        ('Em Analise', 'Em Analise'),
+        ('Enviado', 'Enviado'),
+        ('Faturado', 'Faturado'),
+        ('Pago', 'Pago'),
+    )
+
+    servicos = models.ManyToManyField(Servicos)
+    usuario_cadastro = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET(usuario_deletado),
+        verbose_name='Responsável',
+        null=True, blank=True
+    )
+    dt_cadastro = models.DateField(
+        "Cadastro", 
+        auto_now_add=True,
+        null=False, blank=False)
+    dt_faturamento = models.DateField(
+        "Faturamento", 
+        auto_now=False, auto_now_add=False,
+        null=True, blank=True)
+    dt_prazo = models.DateField(
+        "Prazo", 
+        auto_now=False, auto_now_add=False,
+        null=True, blank=True)
+    status = models.CharField(
+        'Status',
+        null=True, blank=True,
+        choices=CHOICES_FATURA)
+    nota_fiscal = models.CharField(
+        'Nota Fiscal',
+        null=True, blank=True)
+    valor_total = models.DecimalField(
+        'Total',
+        null=True, blank=True,
+        max_digits=8,
+        decimal_places=2)
+    observacoes = models.TextField('Observações')
+
+    class Meta:
+        verbose_name = "Fatura"
+        verbose_name_plural = "Faturas"

@@ -80,7 +80,7 @@ class MenuMiddleware(MiddlewareMixin):
                 },
                 {
                     'title': 'Serviços',
-                    'permission': request.user.has_perm('servicos.view_servicos') or request.user.has_perm('servicos.view_meus_servicos'),
+                    'permission': request.user.has_perm('servicos.view_servicos') or request.user.has_perm('servicos.view_meusservicos'),
                     'color': '#2255a4',
                     'icon': 'mdi mdi-wrench',
                     'url': '',
@@ -94,9 +94,15 @@ class MenuMiddleware(MiddlewareMixin):
                         },
                         {
                             'title': 'Meus Serviços',
-                            'permission': request.user.has_perm('servicos.view_meus_servicos'),
+                            'permission': request.user.has_perm('servicos.view_meusservicos'),
                             'icon': 'mdi mdi-view-list',
                             'url': reverse('listagem_meus_servicos'),
+                        },
+                        {
+                            'title': 'Faturas',
+                            'permission': request.user.has_perm('servicos.view_faturas'),
+                            'icon': 'mdi mdi-view-list',
+                            'url': reverse('listagem_faturas'),
                         }
                     ]
                 },

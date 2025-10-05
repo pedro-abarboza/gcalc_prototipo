@@ -27,7 +27,8 @@ class ListTipoServicosCliente(ListView):
 class ListTipoServicosClienteJson(View):
     
     def get(self, *args, **kwargs):
-        result = list(Clientes.objects.get(id = kwargs['cliente_id']).tiposervicos_set.all().values_list('id', 'descricao'))
+        result = [('','-----')]
+        result += list(Clientes.objects.get(id = kwargs['cliente_id']).tiposervicos_set.all().values_list('id', 'descricao'))
         return JsonResponse(result, safe=False)
 
 

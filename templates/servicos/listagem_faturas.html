@@ -12,10 +12,10 @@
 
 {% block thead %}
 	<tr>
-		<th>Cliente</th>
-		<th>Tipo de Serviço</th>
+		<th>D. Cadastro</th>
 		<th>Responsável</th>
-		<th>Processo</th>
+		<th>Cliente</th>
+		<th>Valor Total</th>
 		<th>Prazo</th>
 		<th>Status</th>
 		<th>Ações</th>
@@ -25,10 +25,9 @@
 {% block tbody%}
 	{% for item in object_list %}
 		<tr>
-			<td class="py-1 align-middle" title="{{ item.cliente }}">{{ item.cliente }}</td>
-			<td class="py-1 align-middle">{{ item.tipo_servico }}</td>
-			<td class="py-1 align-middle" title="{{ item.responsavel.nome_completo }}">{{ item.responsavel.nome_completo|default_if_none:'' }}</td>
-			<td class="py-1 align-middle" title="{{ item.processo }}">{{ item.processo }}</td>
+			<td class="py-1 align-middle">{{ item.dt_cadastro|date:'d/m/Y' }}</td>
+			<td class="py-1 align-middle" title="{{ item.usuario_cadastro }}">{{ item.usuario_cadastro|default_if_none:'' }}</td>
+			<td class="py-1 align-middle">Cliente</td>
 			<td class="py-1 align-middle" title="{{ item.dt_prazo }}">{{ item.dt_prazo|date:'d/m/Y' }}</td>
 			<td class="py-1 align-middle" title="{{ item.status }}">{{ item.status|default_if_none:'' }}</td>
 			<td class="py-1 align-middle justify-content-md-center col-1">

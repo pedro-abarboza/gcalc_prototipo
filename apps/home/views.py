@@ -65,7 +65,7 @@ class HomeView(TemplateView):
             },
             {
                 'title': 'Meus Serviços',
-                'permission': request.user.has_perm('servicos.view_meus_servicos'),
+                'permission': request.user.has_perm('servicos.view_meusservicos'),
                 'color': '#27a9e3',
                 'icon': 'mdi mdi-view-list',
                 'url': reverse('listagem_meus_servicos'),
