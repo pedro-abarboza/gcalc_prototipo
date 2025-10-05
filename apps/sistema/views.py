@@ -13,6 +13,7 @@ class SistemaView(UpdateView):
     template_name='sistema/sistema.html'
     fields = '__all__'
 
+
     def get_breadcrumbs(self):
         return [
             {
@@ -22,12 +23,16 @@ class SistemaView(UpdateView):
             },
         ]
     
+    def get_success_url(self):
+        return reverse('sistema')
+    
     def get_object(self, queryset = None):
         try:
-            param = Parametros.objects.latest()
+            param = Parametros.objects.latest('id')
         except:
             param = Parametros.objects.get_or_create()[0]
         return param
+        
     
     def get_form_class(self):
         form_class = super().get_form_class()
@@ -42,8 +47,24 @@ class SistemaView(UpdateView):
         context['title'] = 'Sistema'
         context['card_title'] = 'Sistema'
         context['subtitle'] = 'Bem vindo ao G-Calc.'
-        
         return context
+    
+    def form_valid(self, form):
+        param = self.get_object()
+        if 'logo_icon' in self.request.FILES:
+            logo_icon = os.path.join(settings.MEDIA_ROOT,'logo/logo-icon.png')
+            if os.path.exists(logo_icon):
+                param.logo_icon.delete()
+            mime = form.instance.logo_icon.name.split('.')[-1]
+            form.instance.logo_icon.name = 'logo-icon.'+mime
+        if 'logo_text' in self.request.FILES:
+            logo_text = os.path.join(settings.MEDIA_ROOT,'logo/logo-text.png')
+            if os.path.exists(logo_text):
+                param.logo_text.delete()
+            mime = form.instance.logo_text.name.split('.')[-1]
+            form.instance.logo_text.name = 'logo-text.'+mime
+            
+        return super().form_valid(form)
 
 def servir_imagem_logo(request, nome_arquivo):
     caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo', nome_arquivo)

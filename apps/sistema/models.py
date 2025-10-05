@@ -7,8 +7,8 @@ class Parametros(models.Model):
     nome_empresa = models.CharField(
         blank=True, null=True
     )
-    logo_icon = models.ImageField()
-    logo_text = models.ImageField()
+    logo_icon = models.ImageField(upload_to='logo/')
+    logo_text = models.ImageField(upload_to='logo/')
 
     class Meta:
         verbose_name = "Parametro"
