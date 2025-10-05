@@ -48,6 +48,6 @@ class SistemaView(UpdateView):
 def servir_imagem_logo(request, nome_arquivo):
     caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo', nome_arquivo)
     if not os.path.exists(caminho_arquivo):
-        caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo-default', nome_arquivo)
+        caminho_arquivo = os.path.join(settings.MEDIA_ROOT, 'logo_default', nome_arquivo)
     with open(caminho_arquivo, "rb") as f:
         return HttpResponse(f.read())
