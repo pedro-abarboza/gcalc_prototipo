@@ -101,15 +101,14 @@
               <span class="db col-12">
                 {% include 'base/logo_login.html' %}
               </span>
-            </div>
+          </div>
           <div id="loginform">
-            
             <!-- Form -->
             <form
               class="form-horizontal my-3"
               id="loginform" method="post">
               {% csrf_token %}
-              <div class="row pb-4">
+              <div class="row">
                 <div class="col-12">
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -151,10 +150,10 @@
                   </div>
                 </div>
               </div>
-              <div class="row border-top border-secondary">
+              <div class="row border-bottom border-secondary">
                 <div class="col-12">
                   <div class="form-group">
-                    <div class="pt-3">
+                    <div class="py-3">
                       <!--<button
                         class="btn btn-info"
                         id="to-recover"
@@ -163,7 +162,7 @@
                         <i class="mdi mdi-lock fs-4 me-1"></i> Lost password?
                       </button>-->
                       <button
-                        class="btn btn-success float-end text-white"
+                        class="btn btn-info px-5 float-center text-white"
                         type="submit"
                       >
                         Login
@@ -174,6 +173,9 @@
               </div>
             </form>
           </div>
+          <span class="db col-12">
+            {% include 'base/footer_login.html' %}
+          </span>
           <!--<div id="recoverform" style="display: none">
             <div class="text-center">
               <span class="text-white"
