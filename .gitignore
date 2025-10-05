@@ -26,6 +26,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 matrix-admin-bt5/
+media/logo/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
