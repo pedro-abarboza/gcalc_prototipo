@@ -1,3 +1,4 @@
+{% load static %}
 <!-- ============================================================== -->
 <!-- Left Sidebar - style you can find in sidebar.scss  -->
 <!-- ============================================================== -->
@@ -11,18 +12,18 @@
 					{% if item.permission %}
 						<li class="sidebar-item">
 							<a
-							{% if item.url %}
-							class="sidebar-link waves-effect waves-dark sidebar-link"
-							href="{{item.url}}"
-							{% else %}
-							class="sidebar-link has-arrow waves-effect waves-dark"
-							href="javascript:void(0)"
-							{% endif %}
-							aria-expanded="false"
-							>
-							<i class="{{item.icon}}"></i>
-							<span class="hide-menu">{{item.title}} </span>
-						</a>
+								{% if item.url %}
+								class="sidebar-link waves-effect waves-dark sidebar-link"
+								href="{{item.url}}"
+								{% else %}
+								class="sidebar-link has-arrow waves-effect waves-dark"
+								href="javascript:void(0)"
+								{% endif %}
+								aria-expanded="false"
+								>
+								<i class="{{item.icon}}"></i>
+								<span class="hide-menu">{{item.title}} </span>
+							</a>
 						{% if item.submenu %}
 							<ul aria-expanded="false" class="collapse first-level">
 								{% for item in item.submenu %}
@@ -62,9 +63,17 @@
 								{% endfor %}
 							</ul>
 						{% endif %}
-						</li>
 					{% endif %}
 				{% endfor %}
+				<li class="sidebar-item">
+					<form method="post" action="{% url 'logout' %}">
+						{% csrf_token %}
+						<button class="sidebar-link" type="submit" 
+							style="border:none; background:none;">
+							<i class="fa fa-power-off"></i> Logout
+						</button>
+					</form>
+				</li>
 			</ul>
 		</nav>
 		<!-- End Sidebar navigation -->

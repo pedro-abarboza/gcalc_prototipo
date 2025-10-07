@@ -82,26 +82,26 @@ class MenuMiddleware(MiddlewareMixin):
                     'title': 'Serviços',
                     'permission': request.user.has_perm('servicos.view_servicos') or request.user.has_perm('servicos.view_meusservicos'),
                     'color': '#2255a4',
-                    'icon': 'mdi mdi-wrench',
+                    'icon': 'mdi mdi-bulletin-board',
                     'url': '',
                     'url_home': '',
                     'submenu':[
                         {
                             'title': 'Todos Serviços',
                             'permission': request.user.has_perm('servicos.view_servicos'),
-                            'icon': 'mdi mdi-view-list',
+                            'icon': 'mdi mdi-clipboard-text',
                             'url': reverse('listagem_servicos'),
                         },
                         {
                             'title': 'Meus Serviços',
                             'permission': request.user.has_perm('servicos.view_meusservicos'),
-                            'icon': 'mdi mdi-view-list',
+                            'icon': 'mdi mdi-clipboard-account',
                             'url': reverse('listagem_meus_servicos'),
                         },
                         {
                             'title': 'Faturas',
                             'permission': request.user.has_perm('servicos.view_faturas'),
-                            'icon': 'mdi mdi-view-list',
+                            'icon': 'mdi mdi-checkbox-multiple-marked-outline',
                             'url': reverse('listagem_faturas'),
                         }
                     ]
@@ -132,7 +132,7 @@ class MenuMiddleware(MiddlewareMixin):
                     'title': 'Sistema',
                     'permission': request.user.has_perm('auth.view_user') or request.user.has_perm('auth.view_group'),
                     'color': '#da542e',
-                    'icon': 'mdi mdi-account-card-details',
+                    'icon': 'mdi mdi-wrench',
                     'url': reverse('sistema'),
                     'url_home': reverse('sistema'),
                 },
