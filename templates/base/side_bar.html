@@ -20,6 +20,7 @@
 								href="javascript:void(0)"
 								{% endif %}
 								aria-expanded="false"
+								title="{{item.title}}"
 								>
 								<i class="{{item.icon}}"></i>
 								<span class="hide-menu">{{item.title}} </span>
@@ -70,7 +71,7 @@
 						{% csrf_token %}
 						<button class="sidebar-link" type="submit" 
 							style="border:none; background:none;">
-							<i class="fa fa-power-off"></i> Logout
+							<i class="fa fa-power-off"></i> <span class="hide-menu">Logout</span>
 						</button>
 					</form>
 				</li>
