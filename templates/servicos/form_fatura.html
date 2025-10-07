@@ -7,94 +7,98 @@
 				{% if form.instance.id %}
 					<input type="hidden" name="pk" value="{{form.instance.id}}">
 				{% endif %}
-				<h5 class="modal-title">{{card_title}}</h5>
+				<div>
+					<h5 class="modal-title">{{card_title}}</h5>
+					<small>{{subtitle}}</small>
+				</div>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body py-0">
+			<div class="modal-body">
 				<!-- ============================================================== -->
 				<!-- Container fluid  -->
 				<!-- ============================================================== -->
-				<div class="container-fluid">
+
 					<!-- ============================================================== -->
 					<!-- Start Page Content -->
 					<!-- ============================================================== -->
-					<div class="card">
+					<div class="card border mt-3">
+						<div class="card-header">
+							<h5>Filtros</h5>
+						</div>
 						<div class="card-body">
-							<form id="form_filtro" class="form-horizontal wizard">
-								<div class="row">
-									<div class="form-group col-md-6 col-lg-3" >
-										<label for="cliente" >Cliente:</label>
-										<select name="cliente" id="cliente" onchange="carregar_tp(this)"
-											class="select form-control" style="width: 100%">
-											<option value="">-----</option>
-											{% for item in clientes %}
-												<option value="{{item.0}}" 
-													{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
-											{% endfor %}
-										</select>
-									</div>
-									<div class="form-group col-md-6 col-lg-3" >
-										<label for="tipo_servico" >Tipo de Serviço:</label>
-										<select name="tipo_servico" id="tipo_servico" onchange="carregar_rs(this)" 
-											class="select form-control" style="width: 100%">
-											<option value="">-----</option>
-											{% for item in servicos %}
-												<option value="{{item.0}}" 
-													{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
-											{% endfor %}
-										</select>
-									</div>
-									<div class="form-group col-md-6 col-lg-3" >
-										<label for="responsavel" >Responsável:</label>
-										<select name="responsavel" id="responsavel" class="select form-control" style="width: 100%">
-											<option value="">-----</option>
-										</select>
-									</div>
-									<div class="form-group col-md-6 col-lg-3" >
-										<label for="status" >Status:</label>
-										<select name="status" id="status" class="select form-control" style="width: 100%">
-											<option value="">-----</option>
-											{% for item in status %}
-												<option value="{{item.0}}" 
-													{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
-											{% endfor %}
-										</select>
+							<div class="row">
+								<div class="form-group col-md-6 col-lg-3" >
+									<label for="cliente" >Cliente:</label>
+									<select name="cliente" id="cliente" onchange="carregar_tp(this)"
+										class="select form-control" style="width: 100%">
+										<option value="">-----</option>
+										{% for item in clientes %}
+											<option value="{{item.0}}" 
+												{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group col-md-6 col-lg-3" >
+									<label for="tipo_servico" >Tipo de Serviço:</label>
+									<select name="tipo_servico" id="tipo_servico" onchange="carregar_rs(this)" 
+										class="select form-control" style="width: 100%">
+										<option value="">-----</option>
+										{% for item in servicos %}
+											<option value="{{item.0}}" 
+												{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group col-md-6 col-lg-3" >
+									<label for="responsavel" >Responsável:</label>
+									<select name="responsavel" id="responsavel" class="select form-control" style="width: 100%">
+										<option value="">-----</option>
+									</select>
+								</div>
+								<div class="form-group col-md-6 col-lg-3" >
+									<label for="status" >Status:</label>
+									<select name="status" id="status" class="select form-control" style="width: 100%">
+										<option value="">-----</option>
+										{% for item in status %}
+											<option value="{{item.0}}" 
+												{% if processo_id|safe == item.0|safe %}selected{%endif%}>{{item.1}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-6 col-lg-3">
+									<label>Intervalo de Datas de Cadastro</label>
+									<div class="d-flex">
+										<input name='dt_cadastro_inicio' type="text" class="form-control datepicker date-inputmask" 
+											id="dt_cadastro_inicio" placeholder="Inicio">
+										<input name='dt_cadastro_fim' type="text" class="form-control datepicker date-inputmask" 
+											id="dt_cadastro_fim" placeholder="Fim">
 									</div>
 								</div>
-								<div class="row">
-									<div class="form-group col-md-6 col-lg-3">
-										<label>Intervalo de Datas de Cadastro</label>
-										<div class="d-flex">
-											<input name='dt_cadastro_inicio' type="text" class="form-control datepicker date-inputmask" 
-												id="dt_cadastro_inicio" placeholder="Inicio">
-											<input name='dt_cadastro_fim' type="text" class="form-control datepicker date-inputmask" 
-												id="dt_cadastro_fim" placeholder="Fim">
-										</div>
-									</div>
-									<div class="form-group col-md-6 col-lg-3">
-										<label>Intervalo de Datas de Conclusão</label>
-										<div class="d-flex">
-											<input name='dt_conclusao_inicio' type="text" class="form-control datepicker date-inputmask" 
-												id="dt_conclusao_inicio" placeholder="Inicio">
-											<input name='dt_conclusao_fim' type="text" class="form-control datepicker date-inputmask" 
-												id="dt_conclusao_fim" placeholder="Fim">
-										</div>
-									</div>
-									
-									<div class="col-12 form-group">
-										<button id="filtro" value="filtrar" onclick="filtrar()" type="button" class="btn btn-primary mt-4"><i class="mdi mdi-filter"></i>Filtrar</button>
-										<button id="exportar" value="exportar" type="button" class="btn btn-success mt-4"><i class="mdi mdi-file-excel-box"></i>Exportar</button>
+								<div class="form-group col-md-6 col-lg-3">
+									<label>Intervalo de Datas de Conclusão</label>
+									<div class="d-flex">
+										<input name='dt_conclusao_inicio' type="text" class="form-control datepicker date-inputmask" 
+											id="dt_conclusao_inicio" placeholder="Inicio">
+										<input name='dt_conclusao_fim' type="text" class="form-control datepicker date-inputmask" 
+											id="dt_conclusao_fim" placeholder="Fim">
 									</div>
 								</div>
-							</form>
+								
+								<div class="col-12 form-group">
+									<button id="filtro" value="filtrar" onclick="filtrar()" type="button" class="btn btn-primary mt-4"><i class="mdi mdi-filter"></i>Filtrar</button>
+									<button id="exportar" value="exportar" type="button" class="btn btn-success mt-4"><i class="mdi mdi-file-excel-box"></i>Exportar</button>
+								</div>
+							</div>
 						</div>
 					</div>
 
-					<div class="card">
+					<div class="card border">
+						<div class="card-header">
+							<h5>Serviços</h5>
+						</div>
 						<div class="card-body">
-							<div class="mb-3 mx-2 border-top">
-								Serviços
-							</div>
 
 							<div class="table-responsive">
 								<table id="listagem_servicos_fatura" class="table table-striped table-bordered">
@@ -131,7 +135,7 @@
 						</div>
 					</div>
 
-				</div>
+
 				<!-- ============================================================== -->
 				<!-- End Page Content -->
 				<!-- ============================================================== -->

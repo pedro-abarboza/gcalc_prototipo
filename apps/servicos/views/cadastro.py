@@ -96,7 +96,7 @@ class CadFatura(CreateView):
         servicos = Servicos.objects.filter()
         clientes = [(x.cliente_id, x.cliente.nome) for x in servicos.distinct('cliente')]
         context['title'] = 'Fatura'
-        context['card_title'] = 'Cadastro'
+        context['card_title'] = 'Cadastro de Fatura'
         context['servicos'] = servicos
         context['clientes'] = clientes
         context['status'] = Servicos.CHOICES_STATUS

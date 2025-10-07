@@ -7,111 +7,106 @@
 				{% if form.instance.id %}
 					<input type="hidden" name="pk" value="{{form.instance.id}}">
 				{% endif %}
-				<h5 class="modal-title">{{card_title}}</h5>
+				<div>
+					<h5 class="modal-title">{{card_title}}</h5>
+					<small>{{subtitle}}</small>
+				</div>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body py-0">
+			<div class="modal-body">
 				<!-- ============================================================== -->
-				<!-- Container fluid  -->
+				<!-- Start Page Content -->
 				<!-- ============================================================== -->
-				<div class="container-fluid">
-					<!-- ============================================================== -->
-					<!-- Start Page Content -->
-					<!-- ============================================================== -->
-					<div class="card">
+				<div class="card p-3">
 
-						<div class="form-group mt-3 row">
-							<label>{{form.fields.cliente.label}}</label>
-							<div class="col-12">
-								<select name='cliente' class="form-control select2" id="cliente" required style="width: 100%;"
-									onchange="carregar_tp(this)">
-									<option value=""></option>
-									{% for item in clientes %}
-										<option value="{{item.0}}" 
-											{% if form.instance.cliente.id == item.0 %}selected{% endif %}>{{item.1}}</option>
-									{% endfor %}
-								</select>
-							</div>
+					<div class="form-group mt-3 row">
+						<label>{{form.fields.cliente.label}}</label>
+						<div class="col-12">
+							<select name='cliente' class="form-control select2" id="cliente" required style="width: 100%;"
+								onchange="carregar_tp(this)">
+								<option value=""></option>
+								{% for item in clientes %}
+									<option value="{{item.0}}" 
+										{% if form.instance.cliente.id == item.0 %}selected{% endif %}>{{item.1}}</option>
+								{% endfor %}
+							</select>
 						</div>
+					</div>
 
-						<div class="form-group mt-3 row">
-							<label>{{form.fields.tipo_servico.label}}</label>
-							<div class="col-12">
-								<select name='tipo_servico' class="form-control select2" id="tipo_servico" 
-									onchange="carregar_rs(this)" required style="width: 100%;">
-									{% if form.instance.cliente %}
+					<div class="form-group mt-3 row">
+						<label>{{form.fields.tipo_servico.label}}</label>
+						<div class="col-12">
+							<select name='tipo_servico' class="form-control select2" id="tipo_servico" 
+								onchange="carregar_rs(this)" required style="width: 100%;">
+								{% if form.instance.cliente %}
+									<option value=""></option>
+									{% for item in tipos_servicos %}
+										<option value="{{ item.0 }}" 
+											{% if form.instance.tipo_servico.id == item.0 %} selected {% endif %}>
+											{{item.1}}
+										</option>
+									{% endfor %}
+								{% endif %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group mt-3 row">
+						<label>{{form.fields.responsavel.label}}</label>
+						<div class="col-12">
+							<select name='responsavel' class="form-control select2" id="responsavel" style="width: 100%;">
+								{% if form.instance.id %}
+									{% if form.instance.tipo_servico %}
 										<option value=""></option>
-										{% for item in tipos_servicos %}
-											<option value="{{ item.0 }}" 
-												{% if form.instance.tipo_servico.id == item.0 %} selected {% endif %}>
+										{% for item in responsaveis %}
+											<option value="{{ item.0 }}"
+												{% if form.instance.responsavel.slug == item.0 %} selected {% endif %}>
 												{{item.1}}
 											</option>
 										{% endfor %}
 									{% endif %}
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group mt-3 row">
-							<label>{{form.fields.responsavel.label}}</label>
-							<div class="col-12">
-								<select name='responsavel' class="form-control select2" id="responsavel" style="width: 100%;">
-									{% if form.instance.id %}
-										{% if form.instance.tipo_servico %}
-											<option value=""></option>
-											{% for item in responsaveis %}
-												<option value="{{ item.0 }}"
-													{% if form.instance.responsavel.slug == item.0 %} selected {% endif %}>
-													{{item.1}}
-												</option>
-											{% endfor %}
-										{% endif %}
-									{% endif %}
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group mt-3">
-							<label>{{form.fields.processo.label}}</label>
-							<input name='processo' type="text" class="form-control processo-inputmask" 
-								id="processo" required value="{{form.instance.processo}}"
-							>
-						</div>
-						
-						<div class="form-group mt-3">
-							<label>{{form.fields.dt_prazo.label}}</label>
-							<input name='dt_prazo' type="text" class="form-control datepicker date-inputmask" 
-								id="dt_prazo" required value="{{form.instance.dt_prazo|date:'d/m/Y'}}"
-							>
-						</div>
-
-						<div class="form-group mt-3 row">
-							<label>{{form.fields.status.label}}</label>
-							<div class="col-12">
-								<select name='status' class="form-control select2" id="status" required style="width: 100%;">
-									{% for item in form.fields.status.choices %}
-										<option value="{{ item.0 }}" 
-											{% if form.instance.status == item.0 %} selected {% endif %}>
-											{{item.1}}
-										</option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group mt-3">
-							<label>{{form.fields.observacao.label}}</label>
-							<input name='observacao' type="text" class="form-control" id="observacao" value="{{form.instance.observacao|default_if_none:""}}">
+								{% endif %}
+							</select>
 						</div>
 					</div>
+
+					<div class="form-group mt-3">
+						<label>{{form.fields.processo.label}}</label>
+						<input name='processo' type="text" class="form-control processo-inputmask" 
+							id="processo" required value="{{form.instance.processo}}"
+						>
+					</div>
+					
+					<div class="form-group mt-3">
+						<label>{{form.fields.dt_prazo.label}}</label>
+						<input name='dt_prazo' type="text" class="form-control datepicker date-inputmask" 
+							id="dt_prazo" required value="{{form.instance.dt_prazo|date:'d/m/Y'}}"
+						>
+					</div>
+
+					<div class="form-group mt-3 row">
+						<label>{{form.fields.status.label}}</label>
+						<div class="col-12">
+							<select name='status' class="form-control select2" id="status" required style="width: 100%;">
+								{% for item in form.fields.status.choices %}
+									<option value="{{ item.0 }}" 
+										{% if form.instance.status == item.0 %} selected {% endif %}>
+										{{item.1}}
+									</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group mt-3">
+						<label>{{form.fields.observacao.label}}</label>
+						<input name='observacao' type="text" class="form-control" id="observacao" value="{{form.instance.observacao|default_if_none:""}}">
+					</div>
 				</div>
+			</div>
 				<!-- ============================================================== -->
 				<!-- End Page Content -->
 				<!-- ============================================================== -->
-			</div>
-			<!-- ============================================================== -->
-			<!-- End Container fluid  -->
-			<!-- ============================================================== -->
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

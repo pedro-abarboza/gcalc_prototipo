@@ -18,7 +18,7 @@ class ListTipoServicosCliente(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Tipos de Serviços'
         context['card_title'] = 'Listagem'
-        context['subtitle'] = 'Aqui você tem a lista de todos os Clientes cadastrados.'
+        context['subtitle'] = 'Aqui você tem a lista de todos Tipos de Serviços os Clientes cadastrados.'
         context['cliente_id'] = self.kwargs['cliente_id']
         
         return context

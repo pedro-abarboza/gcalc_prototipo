@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic import CreateView
 
-from apps.clientes.models import TipoServicos
+from apps.clientes.models import Clientes, TipoServicos
 
 
 class CadTipoServicosCliente(CreateView):
@@ -20,11 +20,12 @@ class CadTipoServicosCliente(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['card_title'] = 'Cadastro de Clientes'
-        context['subtitle'] = 'Aqui você cadastra novos Clientes.'
+        cliente = Clientes.objects.get(id=self.kwargs['cliente_id'])
+        context['card_title'] = 'Cadastro de Tipos de Serviços'
+        context['subtitle'] = 'Aqui você cadastra Tipos de Serviços prestados para o Cliente - {}.'.format(cliente.nome)
         context['url_form'] = self.get_url_form()
         context['form'] = self.get_form()
-        context['cliente_id'] = self.kwargs['cliente_id']
+        context['cliente_id'] = cliente.id
         return context
     
     def get_form_kwargs(self):

@@ -5,29 +5,24 @@
 		<form id="form" class="form-horizontal wizard" action="{% url 'delecao_servicos' object.id %}" method="post">
 			{% csrf_token %}
 			<div class="modal-header">
-				<h5 class="modal-title">{{card_title}}</h5>
+				<div>
+					<h5 class="modal-title">{{card_title}}</h5>
+					<small>{{subtitle}}</small>
+				</div>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body py-0">
+			<div class="modal-body">
 				<!-- ============================================================== -->
-				<!-- Container fluid  -->
+				<!-- Start Page Content -->
 				<!-- ============================================================== -->
-				<div class="container-fluid">
-					<!-- ============================================================== -->
-					<!-- Start Page Content -->
-					<!-- ============================================================== -->
-					<div class="card">
-						<div class="form-group mt-3">
-							<h3>Você tem certeza que deseja deletar esse Serviço?</h3>
-						</div>
+				<div class="card p-3">
+					<div class="form-group mt-3">
+						<h3>Você tem certeza que deseja deletar esse Serviço?</h3>
 					</div>
 				</div>
-				<!-- ============================================================== -->
-				<!-- End Page Content -->
-				<!-- ============================================================== -->
 			</div>
 			<!-- ============================================================== -->
-			<!-- End Container fluid  -->
+			<!-- End Page Content -->
 			<!-- ============================================================== -->
 
 			<div class="modal-footer">

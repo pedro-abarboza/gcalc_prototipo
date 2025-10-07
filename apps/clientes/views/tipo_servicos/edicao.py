@@ -34,8 +34,8 @@ class EdiTipoServicosCliente(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['card_title'] = 'Edição de Cliente'
-        context['subtitle'] = 'Aqui você edita os dados do {}.'.format(self.object.descricao)
+        context['card_title'] = 'Edição de Tipos de Serviços'
+        context['subtitle'] = 'Aqui você edita os dados do Tipo de Serviço - {}.'.format(self.object.descricao)
         context['subtitle_list'] = 'Aqui visualiza os Tipos de Serviços cadastrados para {}.'.format(self.object.descricao)
         context['form'] = self.get_form()
         

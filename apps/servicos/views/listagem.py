@@ -133,10 +133,10 @@ class ListMeusServicos(ListServicos):
         return self.request.user.has_perm('servicos.delete_meusservicos')
     
     def get_edit_url(self):
-        return reverse('edicao_meusservicos')
+        return reverse('edicao_meus_servicos')
     
     def get_cad_url(self):
-        return reverse('cadastro_meusservicos')
+        return reverse('cadastro_meus_servicos')
     
 
 class DistribuicaoServicos(ListServicos):

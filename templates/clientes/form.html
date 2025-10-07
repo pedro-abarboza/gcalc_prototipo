@@ -14,31 +14,26 @@
 				</div>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body py-0">
+			<div class="modal-body">
 				<!-- ============================================================== -->
-				<!-- Container fluid  -->
+				<!-- Start Page Content -->
 				<!-- ============================================================== -->
-				<div class="container-fluid">
-					<!-- ============================================================== -->
-					<!-- Start Page Content -->
-					<!-- ============================================================== -->
-					<div class="card">
-						<div class="form-group mt-3">
-							<label>{{form.fields.nome.label}}</label>
-							<input name="nome" type="text" class="form-control" maxlength={{form.fields.nome.max_length}}
-								id="nome" placeholder="Digite o Nome do Cliente" required value="{{form.instance.nome}}"
-							>
-						</div>
+				<div class="card p-3">
+					<div class="form-group mt-3">
+						<label>{{form.fields.nome.label}}</label>
+						<input name="nome" type="text" class="form-control" maxlength={{form.fields.nome.max_length}}
+							id="nome" placeholder="Digite o Nome do Cliente" required value="{{form.instance.nome}}"
+						>
+					</div>
 
-						<div class="form-group mt-3">
-							<label>{{form.fields.cpf.label}}</label>
-							<input name='cpf' type="text" class="form-control cpf-inputmask" id="cpf" value={{form.instance.cpf|default_if_none:''}}>
-						</div>
+					<div class="form-group mt-3">
+						<label>{{form.fields.cpf.label}}</label>
+						<input name='cpf' type="text" class="form-control cpf-inputmask" id="cpf" value={{form.instance.cpf|default_if_none:''}}>
+					</div>
 
-						<div class="form-group mt-3">
-							<label>{{form.fields.cnpj.label}}</label>
-							<input name='cnpj' type="text" class="form-control cnpj-inputmask" id="cnpj" value={{form.instance.cnpj|default_if_none:''}}>
-						</div>
+					<div class="form-group mt-3">
+						<label>{{form.fields.cnpj.label}}</label>
+						<input name='cnpj' type="text" class="form-control cnpj-inputmask" id="cnpj" value={{form.instance.cnpj|default_if_none:''}}>
 					</div>
 				</div>
 			</div>
